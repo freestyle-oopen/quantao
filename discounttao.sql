@@ -1,13 +1,3 @@
-# MySQL-Front Dump 2.5
-#
-# Host: localhost   Database: discounttao
-# --------------------------------------------------------
-# Server version 5.0.41-community-nt-log
-
-
-#
-# Table structure for table 'classify'
-#
 
 CREATE TABLE IF NOT EXISTS classify (
   id int(5) unsigned NOT NULL DEFAULT '0' ,
@@ -15,12 +5,6 @@ CREATE TABLE IF NOT EXISTS classify (
   name varchar(20) NOT NULL DEFAULT '0' ,
   PRIMARY KEY (id)
 );
-
-
-
-#
-# Dumping data for table 'classify'
-#
 
 INSERT INTO classify VALUES("1000", "0", "手机/数码");
 INSERT INTO classify VALUES("1001", "0", "电脑办公");
@@ -41,9 +25,6 @@ INSERT INTO classify VALUES("2013", "1001", "路由器");
 INSERT INTO classify VALUES("2014", "1001", "其他");
 
 
-#
-# Table structure for table 'goods'
-#
 
 CREATE TABLE IF NOT EXISTS goods (
   id int(10) unsigned NOT NULL auto_increment,
@@ -67,16 +48,6 @@ CREATE TABLE IF NOT EXISTS goods (
 
 
 
-#
-# Dumping data for table 'goods'
-#
-
-
-
-#
-# Table structure for table 'user'
-#
-
 CREATE TABLE IF NOT EXISTS user (
   id int(5) NOT NULL auto_increment,
   name varchar(10) NOT NULL DEFAULT '0' ,
@@ -87,9 +58,5 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 
-
-#
-# Dumping data for table 'user'
-#
 
 INSERT INTO user VALUES("1", "任宇锴", "15910299984", "2018-05-03 00:00:00", "AABB");

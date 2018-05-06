@@ -88,15 +88,7 @@ public class ActivityController {
     @RequestMapping("/update")
     @ResponseBody
     public Msg updateActivity(Integer goodsid, Integer activityid, HttpSession session) {
-        Admin admin = (Admin) session.getAttribute("admin");
-        if (admin == null) {
-            return Msg.fail("请先登录");
-        }
-        Goods goods = new Goods();
-        goods.setActivityid(activityid);
-        goods.setGoodsid(goodsid);
-        goodsService.updateGoodsById(goods);
-        return Msg.success("更新商品活动成功");
+        return null;
     }
 
     @RequestMapping("delete")

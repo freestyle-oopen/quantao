@@ -4,43 +4,48 @@ import java.util.Date;
 import java.util.List;
 
 public class Goods {
-    private int id;
-
+    private long id;
     private String title;
-
-    private float price;
-
-    private String guideUrl;
-
-    private String url;
-
     private String icon;
-
-    private int userId;
-
-    private Date creatTime;
-
-    private float rebate;
-
-    private int coupon;
-
-    private int source;
-
-    private int freeShipping;
-
+    private String url;
+    private String shopName;
+    private float price;
+    private int saleNum;
+    private float rebate;//回扣
     private int isShelf;
-
+    private String guideShortUrl;
+    private String guideLongUrl;
+    private String guideKey;
+    private int source;//来源
+    private int freeShipping;//是否包邮
+    private int couponTotal;
+    private int couponCount;
+    private String couponValue;
+    private Date couponStart;
+    private Date creatEnd;
+    private Date creatTime;
+    private String couponLongUrl;
+    private String couponKey;
+    private String couponShortUrl;
+    private String isPlan;
     private int firstClass;
-
     private int secondClass;
 
-    private int saleNum;
+    private int page;
 
-    public int getId() {
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -52,20 +57,12 @@ public class Goods {
         this.title = title;
     }
 
-    public float getPrice() {
-        return price;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getGuideUrl() {
-        return guideUrl;
-    }
-
-    public void setGuideUrl(String guideUrl) {
-        this.guideUrl = guideUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getUrl() {
@@ -76,28 +73,28 @@ public class Goods {
         this.url = url;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
-    public int getUserId() {
-        return userId;
+    public float getPrice() {
+        return price;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public int getSaleNum() {
+        return saleNum;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setSaleNum(int saleNum) {
+        this.saleNum = saleNum;
     }
 
     public float getRebate() {
@@ -108,12 +105,36 @@ public class Goods {
         this.rebate = rebate;
     }
 
-    public int getCoupon() {
-        return coupon;
+    public int getIsShelf() {
+        return isShelf;
     }
 
-    public void setCoupon(int coupon) {
-        this.coupon = coupon;
+    public void setIsShelf(int isShelf) {
+        this.isShelf = isShelf;
+    }
+
+    public String getGuideShortUrl() {
+        return guideShortUrl;
+    }
+
+    public void setGuideShortUrl(String guideShortUrl) {
+        this.guideShortUrl = guideShortUrl;
+    }
+
+    public String getGuideLongUrl() {
+        return guideLongUrl;
+    }
+
+    public void setGuideLongUrl(String guideLongUrl) {
+        this.guideLongUrl = guideLongUrl;
+    }
+
+    public String getGuideKey() {
+        return guideKey;
+    }
+
+    public void setGuideKey(String guideKey) {
+        this.guideKey = guideKey;
     }
 
     public int getSource() {
@@ -132,12 +153,84 @@ public class Goods {
         this.freeShipping = freeShipping;
     }
 
-    public int getIsShelf() {
-        return isShelf;
+    public int getCouponTotal() {
+        return couponTotal;
     }
 
-    public void setIsShelf(int isShelf) {
-        this.isShelf = isShelf;
+    public void setCouponTotal(int couponTotal) {
+        this.couponTotal = couponTotal;
+    }
+
+    public int getCouponCount() {
+        return couponCount;
+    }
+
+    public void setCouponCount(int couponCount) {
+        this.couponCount = couponCount;
+    }
+
+    public String getCouponValue() {
+        return couponValue;
+    }
+
+    public void setCouponValue(String couponValue) {
+        this.couponValue = couponValue;
+    }
+
+    public Date getCouponStart() {
+        return couponStart;
+    }
+
+    public void setCouponStart(Date couponStart) {
+        this.couponStart = couponStart;
+    }
+
+    public Date getCreatEnd() {
+        return creatEnd;
+    }
+
+    public void setCreatEnd(Date creatEnd) {
+        this.creatEnd = creatEnd;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
+    }
+
+    public String getCouponLongUrl() {
+        return couponLongUrl;
+    }
+
+    public void setCouponLongUrl(String couponLongUrl) {
+        this.couponLongUrl = couponLongUrl;
+    }
+
+    public String getCouponKey() {
+        return couponKey;
+    }
+
+    public void setCouponKey(String couponKey) {
+        this.couponKey = couponKey;
+    }
+
+    public String getCouponShortUrl() {
+        return couponShortUrl;
+    }
+
+    public void setCouponShortUrl(String couponShortUrl) {
+        this.couponShortUrl = couponShortUrl;
+    }
+
+    public String getIsPlan() {
+        return isPlan;
+    }
+
+    public void setIsPlan(String isPlan) {
+        this.isPlan = isPlan;
     }
 
     public int getFirstClass() {
@@ -154,13 +247,5 @@ public class Goods {
 
     public void setSecondClass(int secondClass) {
         this.secondClass = secondClass;
-    }
-
-    public int getSaleNum() {
-        return saleNum;
-    }
-
-    public void setSaleNum(int saleNum) {
-        this.saleNum = saleNum;
     }
 }

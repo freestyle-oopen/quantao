@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html class="jp-pc w1200" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -8,7 +9,7 @@
     <script src="${pageContext.request.contextPath}/js/main/click.js" async="" charset="utf-8"
             mod_name="tkapi-click"></script>
     <script charset="gbk" async="" src="${pageContext.request.contextPath}/js/main/tkapi.js"></script>
-    <title>领卷淘</title>
+    <title>卷卷淘</title>
     <meta content="" name="keywords">
     <meta content="聚九块邮官网-九块邮旗下9.9包邮专区，汇集全网九块九包邮商品，每天10点更新，全场9.9元包邮准时开抢，九块九包邮，精彩不断！" name="description">
     <link rel="shortcut icon" type="image/ico" href="http://www.jujiukuaiyou.com/favicon.ico">
@@ -41,7 +42,8 @@
                                                                                             href="javascript:void(0)"
                                                                                             onclick="CloseNLRAF(false)"><span
             class="closet"><em>x</em>关闭</span></a></p></div>
-<script type="text/javascript">$("#show-qcodes").hover(function () {
+<script type="text/javascript">
+    $("#show-qcodes").hover(function () {
     $("#new-qcodes").css('display', 'block');
 }, function () {
     $("#new-qcodes").css('display', 'none');
@@ -68,46 +70,15 @@
     }
     F_gdwin();
 })(jQuery);
+    function isCoupon(couponValue,starttime,endtime)
+    {
+        if(couponValue=="无"){
+          return false;
+        }
+       return true;
+    }
 </script>
-<%--<div id="toolbar">
-    <div class="bar-con">
-        <ul class="topNav fl">
-            <li><a class="active" href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index">网站首页</a></li>
-            <li></li>
-            <li><a href="http://www.jujiukuaiyou.com/index.php?m=tehui&amp;a=index">特惠精选</a></li>
-            <li></li>
-            <li><a href="http://www.jujiukuaiyou.com/?m=huodong">店铺活动</a></li>
-            <li></li>
-            <li><a href="http://www.jujiukuaiyou.com/index.php?g=m" target="_blank" _hover-ignore="1"><em
-                    class="icon-normal icon-phone"></em>手机版</a></li>
-        </ul>
-        <div class="right-show fr">
-            <div class="union-login"><a
-                    href="http://www.jujiukuaiyou.com/index.php?m=oauth&amp;a=index&amp;mod=qq"><span style="background:url(/static/newpi/images/new-alert-total.gif) no-repeat;
-		width: 22px;
-		height: 25px;
-		display: inline-block;
-		z-index: 99;
-		background-position: 0px -28px;
-		vertical-align: middle;
-		margin: 0 0px 0 8px;"></span>QQ登录</a><a
-                    href="http://www.jujiukuaiyou.com/index.php?m=oauth&amp;a=index&amp;mod=sina"><span style="background:url(/static/newpi/images/new-alert-total.gif) no-repeat;
-		width: 22px;
-		height: 25px;
-		display: inline-block;
-		z-index: 99;
-		background-position:0px -55px;
-		vertical-align: middle;
-		margin: 0 0px 0 8px;"></span>新浪微博登录</a>　|
-            </div>
-            <div class="login-show"><a href="http://www.jujiukuaiyou.com/index.php?m=user&amp;a=login">登录</a><a
-                    href="http://www.jujiukuaiyou.com/index.php?m=user&amp;a=register">免费注册</a>　|
-            </div>
-            <div class="other-show"><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=792833137&amp;site=qq&amp;menu=yes">在线客服</a><a
-                    href="http://www.jujiukuaiyou.com/index.php?m=bao&amp;a=index">卖家报名</a></div>
-        </div>
-    </div>
-</div>--%>
+
 <div class="header">
     <div class="area" _hover-ignore="1">
         <div class="logo logo1">
@@ -282,368 +253,91 @@
     <p style="text-align: center;"><img src="${pageContext.request.contextPath}/js/main/1448293616823433.png" title="" alt="32.png"></p>
     <div class="main pr mt25 clear">
         <ul class="goods-list clear">
-            <li class="" gtype="1" id="70076">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=70076" class="pic-img"
-                            target="_blank"><img alt="mars18夏日碎花印花露肩荷叶边吊带沙滩雪纺连衣裙中长款仙气"
-                                                 src="${pageContext.request.contextPath}/js/main/TB1VUQxn4SYBuNjSsphXXbGvVXa_!!2-item_pic.png_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://img.alicdn.com/bao/uploaded/i4/22013310/TB1VUQxn4SYBuNjSsphXXbGvVXa_!!2-item_pic.png_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/bao/uploaded/i4/22013310/TB1VUQxn4SYBuNjSsphXXbGvVXa_!!2-item_pic.png"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=568644107886"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>20元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=70076"
-                            target="_blank">mars18夏日碎花印花露肩荷叶边吊带沙滩雪纺连衣裙中长款仙气</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>889</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>65.0</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>170.0</span><span
-                            class="discount">(<em>3.8</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=568644107886"
-                                target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
-                        </div>
+            <c:forEach items="${goods}" var="good">
+                <li class="" gtype="1">
+                    <div class="list-good buy">
+
+                                <c:choose>
+                                    <c:when test="${good.couponValue=='无'}">
+                                        <div class="good-pic">
+                                    <a href="${good.guideLongUrl}" class="pic-img" target="_blank">
+                                        <img alt="${good.title}" src="${good.icon}" class="J_lazy lazy good-pic" d-src="${good.icon}"  data-bimg="${good.icon}"  style="display: inline;">
+                                    </a>
+                                     </div>
+                                        <h3 class="good-title">[包邮]<a href="${good.guideLongUrl}" target="_blank">${good.title}</a>
+                                            <div class="icon-all" style="display:none;"></div>
+                                            <span class="sold">已售<em>${good.saleNum}</em></span></h3>
+                                        <div class="good-price"><span class="price-current"><em>￥</em>${good.price}</span><span
+                                                class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p>
+                                            <span class="price-old"><em>现价 ￥</em>${good.price}</span></p></span>
+                                            <div class="btn buy m-buy"><a href="${good.guideLongUrl}" target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="good-pic">
+                                     <a href="${good.couponLongUrl}" class="pic-img" target="_blank">
+                                         <img alt="${good.title}" src="${good.icon}" class="J_lazy lazy good-pic" d-src="${good.icon}"  data-bimg="${good.icon}"  style="display: inline;">
+                                     </a>
+                                  </div>
+                                        <div class="lingquan">
+                                   <a href="${good.couponLongUrl}" target="_blank" rel="external nofollow">
+                                       <span class="get_cupon"><em>${good.couponValue}</em></span><b></b></a></div>
+                                        <h3 class="good-title">[包邮]<a href="${good.couponLongUrl}" target="_blank">${good.title}</a>
+                                            <div class="icon-all" style="display:none;"></div>
+                                            <span class="sold">已售<em>${good.saleNum}</em></span></h3>
+                                        <div class="good-price"><span class="price-current"><em>￥</em>${good.price}</span><span
+                                                class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p>
+                                            <span class="price-old"><em>现价 ￥</em>${good.price}</span></p></span>
+                                            <div class="btn buy m-buy"><a href="${good.couponLongUrl}" target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
+                                            </div>
+                                        </div>
+
+                                     </c:otherwise>
+                                </c:choose>
                     </div>
-                    <a class="y-like my-like" data-pid="568644107886" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="70074">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=70074" class="pic-img"
-                            target="_blank"><img alt="形象美玻尿酸补水蚕丝面膜保湿控油收缩毛孔清洁提亮肤色正品免洗"
-                                                 src="${pageContext.request.contextPath}/js/main/TB2314VnGmWBuNjy1XaXXXCbXXa_!!273960545.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://img.alicdn.com/bao/uploaded/i3/273960545/TB2314VnGmWBuNjy1XaXXXCbXXa_!!273960545.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/bao/uploaded/i3/273960545/TB2314VnGmWBuNjy1XaXXXCbXXa_!!273960545.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=568140936297"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>10元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=70074"
-                            target="_blank">形象美玻尿酸补水蚕丝面膜保湿控油收缩毛孔清洁提亮肤色正品免洗</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>208</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>19.9</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>129.0</span><span
-                            class="discount">(<em>1.5</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=568140936297"
-                                target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="568140936297" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="99826">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99826" class="pic-img"
-                            target="_blank"><img alt="流光夏刺绣网纱性感内裤女蕾丝低腰火辣透明大码透气三角裤纯棉裆"
-                                                 src="${pageContext.request.contextPath}/js/main/TB2bsbzpv9TBuNjy1zbXXXpepXa_!!1051474214.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://img.alicdn.com/imgextra/i3/1051474214/TB2bsbzpv9TBuNjy1zbXXXpepXa_!!1051474214.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/imgextra/i3/1051474214/TB2bsbzpv9TBuNjy1zbXXXpepXa_!!1051474214.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=520812857479"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>3元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99826"
-                            target="_blank">流光夏刺绣网纱性感内裤女蕾丝低腰火辣透明大码透气三角裤纯棉裆</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>7795</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>8.5</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>11.5</span><span
-                            class="discount">(<em>7.4</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=520812857479"
-                                target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="520812857479" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="last" gtype="1" id="99825">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99825" class="pic-img"
-                            target="_blank"><img alt="夏新款真皮女凉拖人字拖软拖鞋外穿百搭平跟女凉拖韩版沙滩皮凉鞋"
-                                                 src="${pageContext.request.contextPath}/js/main/TB25ubybJsmyKJjSZFvXXcE.FXa_!!2117952135.jpg_310x310.jpg"
-                                                 class="J_lazys lazy good-pic"
-                                                 d-src="http://img.alicdn.com/imgextra/i2/2117952135/TB25ubybJsmyKJjSZFvXXcE.FXa_!!2117952135.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/imgextra/i2/2117952135/TB25ubybJsmyKJjSZFvXXcE.FXa_!!2117952135.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=548932504861"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>40元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99825"
-                            target="_blank">夏新款真皮女凉拖人字拖软拖鞋外穿百搭平跟女凉拖韩版沙滩皮凉鞋</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>2419</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>39.0</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>79.0</span><span
-                            class="discount">(<em>4.9</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=548932504861"
-                                target="_blank" rel="external nofollow"><em class="m-icon"></em><span>天猫</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="548932504861" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="99824">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99824" class="pic-img"
-                            target="_blank"><img alt="孕妇连衣裙夏长裙孕妇装夏装套装时尚款2018新款春装雪纺孕妇裙子"
-                                                 src="${pageContext.request.contextPath}/js/main/TB2jszqppuWBuNjSszbXXcS7FXa_!!1956907662.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://img.alicdn.com/imgextra/i2/1956907662/TB2jszqppuWBuNjSszbXXcS7FXa_!!1956907662.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/imgextra/i2/1956907662/TB2jszqppuWBuNjSszbXXcS7FXa_!!1956907662.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=567422166207"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>15元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99824"
-                            target="_blank">孕妇连衣裙夏长裙孕妇装夏装套装时尚款2018新款春装雪纺孕妇裙子</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>189</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>123.0</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>138.0</span><span
-                            class="discount">(<em>8.9</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=567422166207"
-                                target="_blank" rel="external nofollow"><em class="m-icon"></em><span>天猫</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="567422166207" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="99823">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99823" class="pic-img"
-                            target="_blank"><img alt="小心机无壳免剥夏威夷果仁原味195g 办公室休闲孕妇零食罐装坚果"
-                                                 src="${pageContext.request.contextPath}/js/main/TB2pgwfXa285uJjSZFkXXbHopXa_!!387100192.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://img.alicdn.com/imgextra/i1/387100192/TB2pgwfXa285uJjSZFkXXbHopXa_!!387100192.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/imgextra/i1/387100192/TB2pgwfXa285uJjSZFkXXbHopXa_!!387100192.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=547502855003"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>30元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99823"
-                            target="_blank">小心机无壳免剥夏威夷果仁原味195g 办公室休闲孕妇零食罐装坚果</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>2568</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>39.0</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>69.0</span><span
-                            class="discount">(<em>5.7</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=547502855003"
-                                target="_blank" rel="external nofollow"><em class="m-icon"></em><span>天猫</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="547502855003" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="99822">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99822" class="pic-img"
-                            target="_blank"><img alt="chic破洞高腰阔腿牛仔短裤女夏2018新款韩版宽松显瘦拼色卷边热裤"
-                                                 src="${pageContext.request.contextPath}/js/main/TB2usnFdsIrBKNjSZK9XXagoVXa_!!2634784326.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://img.alicdn.com/imgextra/i3/2634784326/TB2usnFdsIrBKNjSZK9XXagoVXa_!!2634784326.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/imgextra/i3/2634784326/TB2usnFdsIrBKNjSZK9XXagoVXa_!!2634784326.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=566272676484"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>30元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99822"
-                            target="_blank">chic破洞高腰阔腿牛仔短裤女夏2018新款韩版宽松显瘦拼色卷边热裤</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>269</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>49.0</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>79.0</span><span
-                            class="discount">(<em>6.2</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=566272676484"
-                                target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="566272676484" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="last" gtype="1" id="99821">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99821" class="pic-img"
-                            target="_blank"><img alt="苗王古宝乳膏止痒抑菌顽固手足藓水泡型皮肤过敏瘙痒成人儿童外用"
-                                                 src="${pageContext.request.contextPath}/js/main/TB20TPNXb_EK1JjSZFBXXa0HVXa_!!3082854494.jpg_310x310.jpg"
-                                                 class="J_lazys lazy good-pic"
-                                                 d-src="http://img.alicdn.com/imgextra/i2/3082854494/TB20TPNXb_EK1JjSZFBXXa0HVXa_!!3082854494.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/imgextra/i2/3082854494/TB20TPNXb_EK1JjSZFBXXa0HVXa_!!3082854494.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=544702944588"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>10元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99821"
-                            target="_blank">苗王古宝乳膏止痒抑菌顽固手足藓水泡型皮肤过敏瘙痒成人儿童外用</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>600</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>5.8</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>15.8</span><span
-                            class="discount">(<em>3.7</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=544702944588"
-                                target="_blank" rel="external nofollow"><em class="m-icon"></em><span>天猫</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="544702944588" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="99820">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99820" class="pic-img"
-                            target="_blank"><img alt="客厅挂钟时钟卧室钟表办公壁钟静音北欧创意挂表简约万年历石英钟"
-                                                 src="${pageContext.request.contextPath}/js/main/TB21122iHYI8KJjy0FaXXbAiVXa_!!3012913363.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://img.alicdn.com/imgextra/i4/3012913363/TB21122iHYI8KJjy0FaXXbAiVXa_!!3012913363.jpg_310x310.jpg"
-                                                 data-bimg="http://img.alicdn.com/imgextra/i4/3012913363/TB21122iHYI8KJjy0FaXXbAiVXa_!!3012913363.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=530618972369"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>15元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99820"
-                            target="_blank">客厅挂钟时钟卧室钟表办公壁钟静音北欧创意挂表简约万年历石英钟</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>3771</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>12.9</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>27.9</span><span
-                            class="discount">(<em>4.6</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=530618972369"
-                                target="_blank" rel="external nofollow"><em class="m-icon"></em><span>天猫</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="530618972369" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="99819">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99819" class="pic-img"
-                            target="_blank"><img alt="欧美蕾丝超薄文胸无钢圈透明性感薄款胸罩无海绵透气女士内衣夏季"
-                                                 src="${pageContext.request.contextPath}/js/main/TB2gjKicbslyKJjSZJiXXb1tFXa_!!2127801198.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://gd2.alicdn.com/imgextra/i1/2127801198/TB2gjKicbslyKJjSZJiXXb1tFXa_!!2127801198.jpg_310x310.jpg"
-                                                 data-bimg="http://gd2.alicdn.com/imgextra/i1/2127801198/TB2gjKicbslyKJjSZJiXXb1tFXa_!!2127801198.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=551371850515"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>10元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99819"
-                            target="_blank">欧美蕾丝超薄文胸无钢圈透明性感薄款胸罩无海绵透气女士内衣夏季</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>157</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>22.8</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>32.8</span><span
-                            class="discount">(<em>7</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=551371850515"
-                                target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="551371850515" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
-            <li class="" gtype="1" id="99814">
-                <div class="list-good buy">
-                    <div class="good-pic"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=jump&amp;a=index&amp;id=99814" class="pic-img"
-                            target="_blank"><img alt="性感蕾丝无钢圈裹胸美背文胸内衣女小胸聚拢交叉带抹胸加厚防走光"
-                                                 src="${pageContext.request.contextPath}/js/main/TB2RZVGbA9WBuNjSspeXXaz5VXa_!!59836142.jpg_310x310.jpg"
-                                                 class="J_lazy lazy good-pic"
-                                                 d-src="http://gd4.alicdn.com/imgextra/i4/59836142/TB2RZVGbA9WBuNjSspeXXaz5VXa_!!59836142.jpg_310x310.jpg"
-                                                 data-bimg="http://gd4.alicdn.com/imgextra/i4/59836142/TB2RZVGbA9WBuNjSspeXXaz5VXa_!!59836142.jpg"
-                                                 style="display: inline;"></a></div>
-                    <div class="lingquan"><a
-                            href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=565395971218"
-                            target="_blank" rel="external nofollow"><span
-                            class="get_cupon"><em>10元</em></span><b></b></a></div>
-                    <h3 class="good-title">[包邮]<a
-                            href="http://www.jujiukuaiyou.com/index.php?m=item&amp;a=index&amp;id=99814"
-                            target="_blank">性感蕾丝无钢圈裹胸美背文胸内衣女小胸聚拢交叉带抹胸加厚防走光</a>
-                        <div class="icon-all" style="display:none;"></div>
-                        <span class="sold">已售<em>285</em></span></h3>
-                    <div class="good-price"><span class="price-current"><em>￥</em>29.9</span><span
-                            class="des-other"><strong><div class="ljpx" _hover-ignore="1"></div></strong><p><span
-                            class="price-old"><em>￥</em>39.9</span><span
-                            class="discount">(<em>7.5</em>折)</span></p></span>
-                        <div class="btn buy m-buy"><a
-                                href="http://www.jujiukuaiyou.com/index.php?m=quanjump&amp;a=index&amp;id=565395971218"
-                                target="_blank" rel="external nofollow"><em class="t-icon"></em><span>淘宝</span></a>
-                        </div>
-                    </div>
-                    <a class="y-like my-like" data-pid="565395971218" href="javascript:;" title="加入收藏"><i
-                            class="like-ico"><span class="heart_left"></span><span class="heart_right"></span></i></a>
-                </div>
-            </li>
+                </li>
+            </c:forEach>
         </ul>
         <div class="page"><em></em>
-            <div><span class="pg-prev">上一页</span> <span>1</span> <a
-                    href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=2">&nbsp;2&nbsp;</a> <a
-                    href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=3">&nbsp;3&nbsp;</a> <a
-                    href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=4">&nbsp;4&nbsp;</a> <a
-                    href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=5">&nbsp;5&nbsp;</a>
-                <i>...</i> <a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=36">36</a> <a
-                        href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=2"
-                        class="pg-next">下一页<em></em></a></div>
+            <div>
+                <c:choose>
+                    <c:when test="${pageBean.page==1}">
+                        <span class="pg-prev">上一页</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="pg-prev" href="/main?pageNo=${pageBean.page-1}"  _hover-ignore="1">上一页</a>
+                    </c:otherwise>
+                </c:choose>
+                <c:forEach begin="1" end="${pageBean.total}" varStatus="indexs">
+                    <c:choose>
+                        <c:when test="${indexs.index==pageBean.page}">
+                            <span>${indexs.index}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="/main?pageNo=${indexs.index}">${indexs.index}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+               <%-- <span>1</span>
+                <a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=2">&nbsp;2&nbsp;</a>
+                <a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=3">&nbsp;3&nbsp;</a>
+                <a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=4">&nbsp;4&nbsp;</a>
+                <a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=5">&nbsp;5&nbsp;</a>
+                  <i>...</i>
+                <a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index&amp;p=36">36</a>--%>
+
+
+
+                <c:choose>
+                    <c:when test="${pageBean.page==pageBean.total}">
+                        <span class="pg-next">下一页<em></em></span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="/main?pageNo=${pageBean.page+1}" class="pg-next">下一页</a>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
     </div><!--文章系统start--><!--文章系统end--></div>
 <div class="nav-main">

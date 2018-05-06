@@ -115,37 +115,7 @@ public class GoodsController {
                            @RequestParam MultipartFile[] fileToUpload,
                            HttpServletRequest request,
                            HttpServletResponse response,
-                           RedirectAttributes redirectAttributes) throws IOException {
-
-        /*goods.setCategory(1);*/
-        goods.setUptime(new Date());
-        goods.setActivityid(1);
-        goodsService.addGoods(goods);
-
-        for(MultipartFile multipartFile:fileToUpload){
-            if (multipartFile != null){
-
-                String realPath = request.getSession().getServletContext().getRealPath("/");
-//                    String realPath = request.getContextPath();
-//                System.out.println(realPath);
-                //图片路径=项目在本地磁盘的路径\shop\target\shop\shopimage
-                String imageName = UUID.randomUUID().toString().replace("-", "") + multipartFile.getOriginalFilename();
-                String imagePath = realPath.substring(0,realPath.indexOf("shop")) + "shopimage" + File.separatorChar + imageName;
-//                String imagePath = realPath + "shopimage\\" + imageName;
-
-                //负载均衡时使用的图片路径
-//                String imagePath = "D:\\Code\\Apache-Tomcat-v8.0\\webapps\\shopimage\\" + imageName;
-//                String imagePath = UUID.randomUUID().toString().replace("-", "") + multipartFile.getOriginalFilename();
-                //把图片路径存入数据库中
-                goodsService.addImagePath(new ImagePath(null, goods.getGoodsid(),imageName));
-                //存图片
-                multipartFile.transferTo(new File(imagePath));
-            }
-        }
-
-        redirectAttributes.addFlashAttribute("succeseMsg","商品添加成功!");
-
-        return "redirect:/admin/goods/add";
+                           RedirectAttributes redirectAttributes) throws IOException {return null;
     }
 
     @RequestMapping("/addCategory")

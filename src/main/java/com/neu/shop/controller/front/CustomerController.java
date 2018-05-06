@@ -41,87 +41,23 @@ public class CustomerController {
 
     @RequestMapping("/registerresult")
     public String registerResult(User user,Model registerResult){
-        List<User> userList=new ArrayList<User>();
-        UserExample userExample=new UserExample();
-        userExample.or().andUsernameLike(user.getUsername());
-        userList=userService.selectByExample(userExample);
-        if (!userList.isEmpty())
-        {
-            registerResult.addAttribute("errorMsg","用户名被占用");
-            return "register";
-        }
-        else {
-            Date RegTime=new Date();
-            user.setRegtime(RegTime);
-            userService.insertSelective(user);
-            return  "redirect:/login";
-        }
+       return null;
     }
 
 
     @RequestMapping("/loginconfirm")
     public String loginConfirm(User user,Model loginResult,HttpServletRequest request,@RequestParam("confirmlogo") String confirmlogo){
-        HttpSession session=request.getSession();
-        String verificationCode = (String) session.getAttribute("certCode");
-        if (!confirmlogo.equals(verificationCode))
-        {
-            loginResult.addAttribute("errorMsg","验证码错误");
-            return "login";
-
-        }
-        List<User> userList=new ArrayList<User>();
-        UserExample userExample=new UserExample();
-        userExample.or().andUsernameEqualTo(user.getUsername()).andPasswordEqualTo(user.getPassword());
-        userList=userService.selectByExample(userExample);
-        if (!userList.isEmpty())
-        {
-            session.setAttribute("user",userList.get(0));
-            return "redirect:/main";
-        }
-        else {
-            loginResult.addAttribute("errorMsg","用户名与密码不匹配");
-            return "login";
-        }
+        return null;
     }
 
     @RequestMapping("/information")
-    public String information(Model userModel,HttpServletRequest request){
-        HttpSession session=request.getSession();
-        User user;
-        Integer userId;
-        user=(User) session.getAttribute("user");
-        if (user==null)
-        {
-            return "redirect:/login";
-        }
-        userId=user.getUserid();
-        user=userService.selectByPrimaryKey(userId);
-        userModel.addAttribute("user",user);
-        return "information";
+    public String information(Model userModel,HttpServletRequest request){ return null;
     }
 
     @RequestMapping("/saveInfo")
     @ResponseBody
     public Msg saveInfo(String name, String email, String telephone,HttpServletRequest request){
-        HttpSession session=request.getSession();
-        UserExample userExample=new UserExample();
-        User user,updateUser=new User();
-        List<User> userList=new ArrayList<User>();
-        Integer userid;
-        user=(User)session.getAttribute("user");
-        userid= user.getUserid();
-        userExample.or().andUsernameEqualTo(name);
-        userList=userService.selectByExample(userExample);
-        if (userList.isEmpty())
-        {
-            updateUser.setUserid(userid);
-            updateUser.setUsername(name);
-            updateUser.setEmail(email);
-            updateUser.setTelephone(telephone);
-            userService.updateByPrimaryKeySelective(updateUser);
-            return Msg.success("更新成功");
-        }
-        else  {return Msg.fail("更新失败");}
+        return null;
     }
 
     @Autowired
@@ -129,17 +65,7 @@ public class CustomerController {
 
     @RequestMapping("/info/address")
     public String address(HttpServletRequest request,Model addressModel){
-        HttpSession session=request.getSession();
-        User user=(User)session.getAttribute("user");
-        if (user==null)
-        {
-            return "redirect:/login";
-        }
-        AddressExample addressExample=new AddressExample();
-        addressExample.or().andUseridEqualTo(user.getUserid());
-        List<Address> addressList=addressService.getAllAddressByExample(addressExample);
-        addressModel.addAttribute("addressList",addressList);
-        return "address";
+        return null;
     }
 
     @RequestMapping("/saveAddr")
@@ -160,12 +86,7 @@ public class CustomerController {
     @RequestMapping("/insertAddr")
     @ResponseBody
     public Msg insertAddr(Address address,HttpServletRequest request){
-       HttpSession session=request.getSession();
-       User user=new User();
-       user=(User) session.getAttribute("user");
-       address.setUserid(user.getUserid());
-        addressService.insertSelective(address);
-        return Msg.success("添加成功");
+        return null;
     }
 
     @Autowired
@@ -176,52 +97,7 @@ public class CustomerController {
 
     @RequestMapping("/info/list")
     public String list(HttpServletRequest request,Model orderModel){
-
-        HttpSession session=request.getSession();
-        User user;
-        user=(User)session.getAttribute("user");
-
-        if (user==null)
-        {
-            return "redirect:/login";
-        }
-
-        OrderExample orderExample=new OrderExample();
-       orderExample.or().andUseridEqualTo(user.getUserid());
-        List<Order> orderList=orderService.selectOrderByExample(orderExample);
-        orderModel.addAttribute("orderList",orderList);
-        Order order;
-        OrderItem orderItem;
-        List<OrderItem> orderItemList=new ArrayList<OrderItem>();
-        Goods goods;
-        Address address;
-       for (Integer i=0;i<orderList.size();i++)
-       {
-           order=orderList.get(i);
-           OrderItemExample orderItemExample=new OrderItemExample();
-           orderItemExample.or().andOrderidEqualTo(order.getOrderid());
-           orderItemList=orderService.getOrderItemByExample(orderItemExample);
-           List<Goods> goodsList=new ArrayList<Goods>();
-           List<Integer> goodsIdList=new ArrayList<Integer>();
-           for (Integer j=0;j<orderItemList.size();j++)
-           {
-               orderItem=orderItemList.get(j);
-               goodsIdList.add(orderItem.getGoodsid());
-           }
-           GoodsExample goodsExample=new GoodsExample();
-           goodsExample.or().andGoodsidIn(goodsIdList);
-           goodsList=goodsService.selectByExample(goodsExample);
-           order.setGoodsInfo(goodsList);
-           address=addressService.selectByPrimaryKey(order.getAddressid());
-           order.setAddress(address);
-           orderList.set(i,order);
-       }
-
-
-
-       orderModel.addAttribute("orderList",orderList);
-
-        return "list";
+        return null;
     }
 
    /* @RequestMapping("/info/list")
@@ -303,61 +179,14 @@ public class CustomerController {
 
     @RequestMapping("/info/favorite")
     public String showFavorite(@RequestParam(value = "page",defaultValue = "1") Integer pn, HttpServletRequest request,Model model){
-        HttpSession session=request.getSession();
-        User user=(User)session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/login";
-        }
-
-        //一页显示几个数据
-        PageHelper.startPage(pn, 16);
-
-        FavoriteExample favoriteExample = new FavoriteExample();
-        favoriteExample.or().andUseridEqualTo(user.getUserid());
-        List<Favorite> favoriteList = goodsService.selectFavByExample(favoriteExample);
-
-        List<Integer> goodsIdList = new ArrayList<Integer>();
-        for (Favorite tmp:favoriteList) {
-            goodsIdList.add(tmp.getGoodsid());
-        }
-
-        GoodsExample goodsExample = new GoodsExample();
-        List<Goods> goodsList = new ArrayList<Goods>();
-        if (!goodsIdList.isEmpty()) {
-            goodsExample.or().andGoodsidIn(goodsIdList);
-            goodsList = goodsService.selectByExample(goodsExample);
-        }
-
-        //获取图片地址
-        for (int i = 0; i < goodsList.size(); i++) {
-            Goods goods = goodsList.get(i);
-
-            List<ImagePath> imagePathList = goodsService.findImagePath(goods.getGoodsid());
-
-            goods.setImagePaths(imagePathList);
-
-            //判断是否收藏
-            goods.setFav(true);
-
-            goodsList.set(i, goods);
-        }
-
-        //显示几个页号
-        PageInfo page = new PageInfo(goodsList,5);
-        model.addAttribute("pageInfo", page);
-
-        return "favorite";
+        return null;
     }
 
     @RequestMapping("/savePsw")
     @ResponseBody
     public Msg savePsw(String Psw,HttpServletRequest request)
     {
-        HttpSession session=request.getSession();
-        User user=(User) session.getAttribute("user");
-        user.setPassword(Psw);
-        userService.updateByPrimaryKeySelective(user);
-        return Msg.success("修改密码成功");
+        return null;
     }
 
     @RequestMapping("/finishList")

@@ -75,42 +75,7 @@ public class ChatController {
     @RequestMapping("/chatto")
     @ResponseBody
     public Msg getChatTo(HttpSession session, Model model, Integer sendto) {
-        //查询历史消息聊天对象
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return Msg.fail("未登录");
-        }
-        ChatExample chatExample = new ChatExample();
-        chatExample.or().andReceiveuserEqualTo(user.getUserid());
-//        chatExample.or().andSenduserEqualTo(user.getUserid());
-//        chatExample.setOrderByClause("MsgTime asc");
-        List<Chat> chatList1 = chatService.selectChatByExample(chatExample);
-
-        ChatExample chatExample2 = new ChatExample();
-//        chatExample.or().andReceiveuserEqualTo(user.getUserid());
-        chatExample2.or().andSenduserEqualTo(user.getUserid());
-//        chatExample.setOrderByClause("MsgTime asc");
-        List<Chat> chatList2 = chatService.selectChatByExample(chatExample2);
-
-        //获取userid列表
-        List<Integer> useridList = new ArrayList<Integer>();
-        for (Chat chat : chatList1) {
-            useridList.add(chat.getSenduser());
-        }
-        for (Chat chat : chatList2) {
-            useridList.add(chat.getReceiveuser());
-        }
-
-        if (sendto != null) {
-            useridList.add(sendto);
-        }
-
-        //获取用户信息
-        UserExample userExample = new UserExample();
-        userExample.or().andUseridIn(useridList);
-        List<User> userList = userService.selectByExample(userExample);
-
-        return Msg.success("获取聊天列表成功").add("userlist",userList);
+        return null;
     }
 
 

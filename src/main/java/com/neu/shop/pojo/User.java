@@ -3,63 +3,53 @@ package com.neu.shop.pojo;
 import java.util.Date;
 
 public class User {
-    private Integer userid;
+    private int id;
 
-    private String username;
+    private String name;
 
-    private String password;
+    private String phone;
 
-    private Date regtime;
+    private Date creatTime;
 
-    private String email;
+    private String invitationCode;
 
-    private String telephone;
-
-    public Integer getUserid() {
-        return userid;
+    public int getId() {
+        return id;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public Date getRegtime() {
-        return regtime;
+    public Date getCreatTime() {
+        return creatTime;
     }
 
-    public void setRegtime(Date regtime) {
-        this.regtime = regtime;
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
     }
 
-    public String getEmail() {
-        return email;
+    public String getInvitationCode() {
+        return invitationCode;
     }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone == null ? null : telephone.trim();
+    public void setInvitationCode(String invitationCode) {
+        this.invitationCode = invitationCode;
     }
 }

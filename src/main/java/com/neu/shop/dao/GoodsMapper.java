@@ -3,6 +3,8 @@ package com.neu.shop.dao;
 import com.neu.shop.pojo.Goods;
 import com.neu.shop.pojo.GoodsExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface GoodsMapper {
@@ -35,4 +37,8 @@ public interface GoodsMapper {
     int updateByPrimaryKey(Goods record);
 
     List<Goods> selectByExampleWithBLOBsLimit(GoodsExample digGoodsExample);
+
+    List<Goods> loadAllGoods(Map<String,Integer> param);
+
+    int loadAllGoodsCount();
 }

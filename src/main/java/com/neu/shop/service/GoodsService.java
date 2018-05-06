@@ -32,4 +32,8 @@ public interface GoodsService {
     public void deleteFavByKey(FavoriteKey favoriteKey);
 
     public List<Favorite> selectFavByExample(FavoriteExample favoriteExample);
+
+    public List<Goods> loadAllGoods(int pageNo,int pageSize);
+
+    int loadAllGoodsCount();
 }

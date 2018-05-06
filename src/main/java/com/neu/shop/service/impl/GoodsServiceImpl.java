@@ -8,7 +8,9 @@ import com.neu.shop.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 文辉 on 2017/7/19.
@@ -28,8 +30,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Integer addGoods(Goods goods) {
-        goodsMapper.insertSelective(goods);
-        return goods.getGoodsid();
+       return null;
     }
 
     @Override
@@ -89,5 +90,18 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Favorite> selectFavByExample(FavoriteExample favoriteExample) {
         return favoriteMapper.selectByExample(favoriteExample);
+    }
+
+    @Override
+    public List<Goods> loadAllGoods(int pageNo,int pageSize) {
+        Map<String ,Integer> param=new HashMap<String, Integer>();
+        param.put("startNo",(pageNo-1)*pageSize);
+        param.put("endNo",pageNo*pageSize);
+        return goodsMapper.loadAllGoods(param);
+    }
+
+    @Override
+    public int loadAllGoodsCount() {
+        return goodsMapper.loadAllGoodsCount();
     }
 }

@@ -2,14 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neu.shop.dao.GoodsMapper">
   <resultMap id="BaseResultMap" type="com.neu.shop.pojo.Goods">
-    <id column="goodsId" jdbcType="INTEGER" property="goodsid" />
-    <result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
-    <result column="price" jdbcType="INTEGER" property="price" />
-    <result column="num" jdbcType="INTEGER" property="num" />
-    <result column="upTime" jdbcType="TIMESTAMP" property="uptime" />
-    <result column="category" jdbcType="INTEGER" property="category" />
-    <result column="detailCate" jdbcType="VARCHAR" property="detailcate" />
-    <result column="activityId" jdbcType="INTEGER" property="activityid" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="price" jdbcType="FLOAT" property="price" />
+    <result column="guide_short_url" jdbcType="VARCHAR" property="guideShortUrl" />
+    <result column="guide_long_url" jdbcType="VARCHAR" property="guideLongUrl" />
+    <result column="guide_key" jdbcType="VARCHAR" property="guideKey" />
+    <result column="coupon_value" jdbcType="VARCHAR" property="couponValue" />
+    <result column="coupon_start" jdbcType="DATE" property="couponStart" />
+    <result column="creat_end" jdbcType="DATE" property="creatEnd" />
+    <result column="creat_time" jdbcType="DATE" property="creatTime" />
+    <result column="coupon_long_url" jdbcType="VARCHAR" property="couponLongUrl" />
+    <result column="coupon_key" jdbcType="VARCHAR" property="couponKey" />
+    <result column="coupon_short_url" jdbcType="VARCHAR" property="couponShortUrl" />
+    <result column="is_plan" jdbcType="VARCHAR" property="isPlan" />
+    <result column="sale_num" jdbcType="INTEGER" property="saleNum" />
+    <result column="rebate" jdbcType="FLOAT" property="rebate" />
+    <result column="is_shelf" jdbcType="INTEGER" property="isShelf" />
+    <result column="source" jdbcType="INTEGER" property="source" />
+    <result column="free_shipping" jdbcType="INTEGER" property="freeShipping" />
+    <result column="coupon_total" jdbcType="INTEGER" property="couponTotal" />
+    <result column="coupon_count" jdbcType="INTEGER" property="couponCount" />
+    <result column="first_class" jdbcType="INTEGER" property="firstClass" />
+    <result column="second_class" jdbcType="INTEGER" property="secondClass" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.neu.shop.pojo.Goods">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -220,6 +238,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+
+  <select id="loadAllGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from goods order by sale_num limit #{startNo} ,#{endNo}
+  </select>
+    <select id="loadAllGoodsCount"  resultType="java.lang.Integer">
+        select count(*) from goods
+    </select>
   <update id="updateByExampleSelective" parameterType="map">
     update goods
     <set>
