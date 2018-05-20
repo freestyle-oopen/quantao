@@ -250,7 +250,7 @@ textarea,input[type="text"],input[type="password"]{ background:url(../images/glo
 .header .area{
 	width:100%;position:relative; height:85px;  margin:0 auto;
 }
-.header .search .smt,.new-users ul li i{ display:block; background:url(../images/header-total.gif) no-repeat;}
+.header .search .smt,.new-users ul li i{ display:block; background:url(/image/find.png) no-repeat;}
 .header .logo,.header .search,.header .protection{position:absolute;}
 .header .logo{ top:17px; left:0;width:231px; height:52px;}
 .header .logo.other{height:54px;width:240px;top:20px;}
@@ -301,9 +301,9 @@ textarea,input[type="text"],input[type="password"]{ background:url(../images/glo
 .header .protection a.check{ margin-left:75px;width:85px;}
 .header .protection01{ background: url(../images/juan-zhijian.png) no-repeat;background-size: cover;height: 30px;}
 /*this is search*/
-.header .search{top:25px; right:0; width:237px; height:35px;}
+.header .search{top:25px; left:300px; width:500px; height:35px;}
 .header .search .search-area{ display:block; width:200px; height:35px; background:#efefef;}
-.header .search .txt{ border:0 none; outline:0 none; background:#efefef; width:190px; height:30px; line-height:30px; margin:2px 0 0 10px; color:#d4d4d4;}
+.header .search .txt{ border:0 none; outline:0 none; background:#efefef; width:200px; height:30px; line-height:30px; margin:2px 0 0 10px; color:#d4d4d4;}
 .header .search .smt{ background-position:right -65px; border:0 none; cursor:pointer; height:35px; width:37px;}
 /*jky-login by huameiwangluo*/
 

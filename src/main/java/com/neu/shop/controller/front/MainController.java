@@ -25,21 +25,22 @@ private static final int pageSize=10;
     private GoodsService goodsService;
 //Zc&i4lLz>y,B         ren8EO_E3.@#FG%Llo
     @RequestMapping("/main")
-    public String showAllGoods(Model model,Integer pageNo) {
+    public String showAllGoods(Model model,Integer pageNo,Integer classify) {
         if(pageNo==null ||pageNo<1){
             pageNo=1;
         }
-        List<Classify> classifies = classifyService.loadAllFirstClass();;
-        List<Goods> goods = goodsService.loadAllGoods(pageNo,pageSize);
-        int count = goodsService.loadAllGoodsCount();
+       // List<Classify> classifies = classifyService.loadAllFirstClass();;
+        List<Goods> goods = goodsService.loadAllGoods(pageNo,pageSize,classify);
+        int count = goodsService.loadAllGoodsCount(classify);
         Integer total = count / pageSize;
         if((count%pageSize)>0){
             total++;
         }
-        model.addAttribute("classifies", classifies);
+        //model.addAttribute("classifies", classifies);
         model.addAttribute("goods", goods);
-        model.addAttribute("pageBean",new Page(pageNo,20));
+        model.addAttribute("pageBean",new Page(pageNo,total));
         return "main1";
     }
+
 
 }

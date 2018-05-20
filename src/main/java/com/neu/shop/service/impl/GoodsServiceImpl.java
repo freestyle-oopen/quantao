@@ -93,15 +93,18 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> loadAllGoods(int pageNo,int pageSize) {
+    public List<Goods> loadAllGoods(int pageNo,int pageSize,Integer classify) {
         Map<String ,Integer> param=new HashMap<String, Integer>();
         param.put("startNo",(pageNo-1)*pageSize);
-        param.put("endNo",pageNo*pageSize);
+        param.put("endNo",pageSize);
+        param.put("classify",classify);
         return goodsMapper.loadAllGoods(param);
     }
 
     @Override
-    public int loadAllGoodsCount() {
-        return goodsMapper.loadAllGoodsCount();
+    public int loadAllGoodsCount(Integer classify) {
+        Map<String ,Integer> param=new HashMap<String, Integer>();
+        param.put("classify",classify);
+        return goodsMapper.loadAllGoodsCount(param);
     }
 }

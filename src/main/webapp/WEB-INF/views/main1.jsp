@@ -12,8 +12,8 @@
     <title>卷卷淘</title>
     <meta content="" name="keywords">
     <meta content="聚九块邮官网-九块邮旗下9.9包邮专区，汇集全网九块九包邮商品，每天10点更新，全场9.9元包邮准时开抢，九块九包邮，精彩不断！" name="description">
-    <link rel="shortcut icon" type="image/ico" href="http://www.jujiukuaiyou.com/favicon.ico">
-    <link rel="bookmark" href="http://www.jujiukuaiyou.com/favicon.ico">
+    <link rel="shortcut icon" type="image/ico" href="/image/icon.png">
+    <link rel="bookmark" href="/image/icon.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main/base.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main/alert.css">
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/main/global.css">
@@ -82,8 +82,8 @@
 <div class="header">
     <div class="area" _hover-ignore="1">
         <div class="logo logo1">
-            <div class="fl"><a class="juan-logo fl" href="http://www.jujiukuaiyou.com/" title="九块邮"><img
-                    src="${pageContext.request.contextPath}/js/main/TB2CJl4qrplpuFjSspiXXcdfFXa_!!97720815.png"></a>
+            <div class="fl"><a class="juan-logo fl" href="/main" title="券券淘"><img
+                    src="${pageContext.request.contextPath}/image/logo.png" height="45" width="183"></a>
             </div>
         </div>
         <div class="search">
@@ -94,19 +94,19 @@
                     <input x-webkit-speech="" name="k" id="k" autocomplete="off" onblur="this.value==&#39;&#39;?this.value=this.title:null" onfocus="this.value==this.title?this.value=&#39;&#39;:null"
                        title="懒得找了，我搜..."  value="懒得找了，我搜..."  class="txt">
                 </span>
-                <input type="submit" value="" class="smt fr"></form>
+                <input type="submit" value="" class="smt fr" ></form>
         </div>
     </div>
     <div class="mainNav">
         <div class="nav">
             <ul class="navigation fl">
-                <li class="current first"><a href="http://www.jujiukuaiyou.com/" _hover-ignore="1">所有分类<em
+                <li class="current first"><a href="/main" _hover-ignore="1">所有分类<em
                         class="cur"></em></a></li>
-                <li><a href="http://www.jujiukuaiyou.com/index.php?m=shijiu&amp;a=index" _hover-ignore="1">20封顶</a></li>
-                <li><a href="http://www.jujiukuaiyou.com/index.php?m=jiu&amp;a=index" _hover-ignore="1">九块邮</a></li>
+                <li><a href="http://www.ju1jiukuaiyou.com/index.php?m=shijiu&amp;a=index" _hover-ignore="1">20封顶</a></li>
+                <li><a href="http://www.juji1ukuaiyou.com/index.php?m=jiu&amp;a=index" _hover-ignore="1">九块邮</a></li>
                 <li><a href="http://www.jujiukuaiyou.com/?m=quan" _hover-ignore="1">优惠券</a></li>
                 <li><a href="http://jujiukuaiyou.com/index.php?m=yugao&amp;a=index">明日预告</a></li>
-                <li><a href="http://www.jujiukuaiyou.com/index.php?g=m" target="_blank" id="show-qcodes"><em
+                <li><a href="http://www.juji1ukuaiyou.com/index.php?g=m" target="_blank" id="show-qcodes"><em
                         class="icon-normal icon-phone" id="new-phone"></em> 手机APP
                 </a>
                     <div id="new-qcodes" class="code-tips" style="display: none;">
@@ -117,11 +117,11 @@
                     </div>
                 </li>
             </ul>
-            <div class="state-show fr"><span id="signinid"><a href="http://www.jujiukuaiyou.com/#"
+           <%-- <div class="state-show fr"><span id="signinid"><a href="http://www.jujiukuaiyou.com/#"
                                                               class="sign_btn signin normal-a dosign"><em
                     class="icon-normal icon-sign"></em><em class="text">签到领积分</em></a><div class="normal-side-box"><div
                     class="box-tips"><p>登陆后 签到奖励</p><p>首次签到可得：<span><b>5</b> 积分</span></p><p>连续签到 <span>8</span> 天</p><p>每日递增 <span>5</span> 积分</p></div></div></span>
-            </div>
+            </div>--%>
         </div>
     </div>
 </div>
@@ -142,40 +142,40 @@
     <div class="top_box">
         <div class="banner_l" _hover-ignore="1">
             <dl>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=1"><i
-                        class="ct-icon ct-icon-nvzhuang"></i>女装<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=2"><i
-                        class="ct-icon ct-icon-nanzhuang"></i>男装</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=3"><i
-                        class="ct-icon ct-icon-xiezi"></i>鞋子<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=4"><i
-                        class="ct-icon ct-icon-muying"></i>母婴</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=5"><i
-                        class="ct-icon ct-icon-jujia"></i>居家<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=6"><i
-                        class="ct-icon ct-icon-meizhuang"></i>美妆</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=7"><i
-                        class="ct-icon ct-icon-shuma"></i>数码<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=8"><i
-                        class="ct-icon ct-icon-meishi"></i>美食</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=9"><i
-                        class="ct-icon ct-icon-wenti"></i>文体<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=13"><i
-                        class="ct-icon ct-icon-neiyi"></i>内衣</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=22"><i
-                        class="ct-icon ct-icon-xiangbao"></i>箱包<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=25"><i
-                        class="ct-icon ct-icon-"></i>9.9包邮</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=26"><i
-                        class="ct-icon ct-icon-"></i>19.9包邮<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=27"><i
-                        class="ct-icon ct-icon-dianqi"></i>电器</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=32"><i
-                        class="ct-icon ct-icon-peishi"></i>其他<em class="ct-line"></em></a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=33"><i
-                        class="ct-icon ct-icon-jiafang"></i>家纺</a></dd>
-                <dd><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=34"><i
-                        class="ct-icon ct-icon-"></i>优惠券<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1000"><i
+                        class="ct-icon-nvzhuang"></i>女装<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1001"><i
+                        class="ct-icon-nanzhuang"></i>男装</a></dd>
+                <dd><a href="/main?classify=1002"><i
+                        class="ct-icon-xiezi"></i>鞋子<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1003"><i
+                        class="ct-icon-muying"></i>母婴</a></dd>
+                <dd><a href="/main?classify=1004"><i
+                        class="ct-icon-jujia"></i>居家<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1005"><i
+                        class="ct-icon-meizhuang"></i>美妆</a></dd>
+                <dd><a href="/main?classify=1006"><i
+                        class="ct-icon-shuma"></i>数码<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1007"><i
+                        class="ct-icon-meishi"></i>美食</a></dd>
+                <dd><a href="/main?classify=1008"><i
+                        class="ct-icon-wenti"></i>办公<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1009"><i
+                        class="ct-icon-neiyi"></i>内衣</a></dd>
+                <dd><a href="/main?classify=1010"><i
+                        class="ct-icon-xiangbao"></i>箱包<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1011"><i
+                        class="ct-icon-"></i>电器</a></dd>
+                <dd><a href="/main?classify=1012"><i
+                        class="ct-icon-"></i>稀奇古怪<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=1013"><i
+                        class="ct-icon-dianqi"></i>其他</a></dd>
+               <%-- <dd><a href="/main?classify=32"><i
+                        class="ct-icon-peishi"></i>其他<em class="ct-line"></em></a></dd>
+                <dd><a href="/main?classify=33"><i
+                        class="ct-icon-jiafang"></i>家纺</a></dd>
+                <dd><a href="/main?classify=34"><i
+                        class="ct-icon-"></i>优惠券<em class="ct-line"></em></a></dd>--%>
             </dl>
         </div>
         <div class="banner_r" style="background:#f7f7f7;box-shadow:none">
@@ -345,50 +345,44 @@
         <div class="nav-item fl">
             <div class="item-list">
                 <ul>
-                    <li><a href="http://www.jujiukuaiyou.com/" class="active">全部</a></li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=1" title="女装">女装</a>
+                    <li><a href="/main" class="active">全部</a></li>
+                    <li><a href="/main?classify=1000" title="女装">女装</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=2" title="男装">男装</a>
+                    <li><a href="/main?classify=1001" title="男装">男装</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=3" title="鞋子">鞋子</a>
+                    <li><a href="/main?classify=1002" title="鞋子">鞋子</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=4" title="母婴">母婴</a>
+                    <li><a href="/main?classify=1003" title="母婴">母婴</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=5" title="居家">居家</a>
+                    <li><a href="/main?classify=1004" title="居家">居家</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=6" title="美妆">美妆</a>
+                    <li><a href="/main?classify=1005" title="美妆">美妆</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=7" title="数码">数码</a>
+                    <li><a href="/main?classify=1006" title="数码">数码</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=8" title="美食">美食</a>
+                    <li><a href="/main?classify=1007" title="美食">美食</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=9" title="文体">文体</a>
+                    <li><a href="/main?classify=1008" title="办公">办公</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=13" title="内衣">内衣</a>
+                    <li><a href="/main?classify=1009" title="内衣">内衣</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=22" title="箱包">箱包</a>
+                    <li><a href="/main?classify=1010" title="箱包">箱包</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=25" title="9.9包邮">9.9包邮</a>
+                    <li><a href="/main?classify=1011" title="电器">电器</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=26" title="19.9包邮">19.9包邮</a>
+                    <li><a href="/main?classify=1012" title="稀奇古怪">稀奇古怪</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=27" title="电器">电器</a>
+                    <li><a href="/main?classify=1013" title="其他">其他</a>
                     </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=32" title="其他">其他</a>
-                    </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=33" title="家纺">家纺</a>
-                    </li>
-                    <li><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=cate&amp;cid=34"
-                           title="优惠券">优惠券</a></li>
                 </ul>
             </div>
         </div>
         <div class="nav-other fl">
             <ul>
                 <li><a href="http://www.jujiukuaiyou.com/index.php?m=xinpin&amp;a=index"><i
-                        class="today"></i><span>今日新品</span></a></li>
+                        class="today"></i><span>优惠价</span></a></li>
                 <li><a href="http://www.jujiukuaiyou.com/index.php?m=yugao&amp;a=index"><i
-                        class="tw"></i><span>明日预告</span></a></li>
+                        class="tw"></i><span>9.9特卖</span></a></li>
             </ul>
         </div>
         <div class="n_h"><span>排序：</span><a href="http://www.jujiukuaiyou.com/index.php?m=index&amp;a=index"
@@ -403,7 +397,7 @@
         <div class="foot-con">
             <div class="con-box-n clear">
                 <div class="app-side-box fl"><p class="app-show"><img
-                        src="${pageContext.request.contextPath}/js/main/5ada050c25609.png"></p>
+                        src=""></p>
                     <p class="app-txt">扫描二维码打开</p></div>
                 <div class="con-left-info fl">
                     <dl class="update">
@@ -474,7 +468,8 @@
 
 
             </p>
-            <div align="center"><a id="_pingansec_bottomimagelarge_shiming"
+<%--            <div align="center">
+                <a id="_pingansec_bottomimagelarge_shiming"
                                    href="https://ss.knet.cn/verifyseal.dll?sn=e16110443010065103g9bw000000&amp;ct=df&amp;a=1&amp;pa=0.7875768630521469"
                                    target="_blank"><img
                     src="${pageContext.request.contextPath}/js/main/TB2zltmamXlpuFjy0FeXXcJbFXa_!!97720815.png"></a><a
@@ -507,7 +502,7 @@
                 <a id="_pingansec_bottomimagelarge_shiming"
                    href="https://www.yunaq.com/analytics/login/?site=www.jujiukuaiyou.com" target="_blank"><img
                         src="${pageContext.request.contextPath}/js/main/TB2lfphXCFmpuFjSZFrXXayOXXa_!!97720815.png"></a>
-                <p></p></div>
+                <p></p></div>--%>
         </div>
     </div>
     <div id="J_sidebar" class="side_right">
@@ -566,7 +561,7 @@
                         class="normal-icon i-code"></i></a>
                     <div class="tab-tips" style="opacity: 0; display: none; right: 62px;">
                         <div class="code-box"><p class="code"><img
-                                src="${pageContext.request.contextPath}/js/main/5ada050c25609.png" width="90px"></p>
+                                src="" width="90px"></p>
                             <p class="txt">扫描下载二维码</p></div>
                         <div class="arr-icon">◆</div>
                     </div>

@@ -40,5 +40,5 @@ public interface GoodsMapper {
 
     List<Goods> loadAllGoods(Map<String,Integer> param);
 
-    int loadAllGoodsCount();
+    int loadAllGoodsCount(Map<String,Integer> param);
 }

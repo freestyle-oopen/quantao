@@ -33,7 +33,7 @@ public interface GoodsService {
 
     public List<Favorite> selectFavByExample(FavoriteExample favoriteExample);
 
-    public List<Goods> loadAllGoods(int pageNo,int pageSize);
+    public List<Goods> loadAllGoods(int pageNo,int pageSize,Integer classify);
 
-    int loadAllGoodsCount();
+    int loadAllGoodsCount(Integer classify);
 }

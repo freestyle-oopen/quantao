@@ -240,10 +240,17 @@
   </select>
 
   <select id="loadAllGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select * from goods order by sale_num limit #{startNo} ,#{endNo}
+    select * from goods
+    <if test="classify != null">
+      where first_class=#{classify}
+    </if>
+      order by coupon_value, sale_num limit #{startNo} ,#{endNo}
   </select>
-    <select id="loadAllGoodsCount"  resultType="java.lang.Integer">
+    <select id="loadAllGoodsCount"  parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(*) from goods
+      <if test="classify != null">
+        where first_class=#{classify}
+      </if>
     </select>
   <update id="updateByExampleSelective" parameterType="map">
     update goods
