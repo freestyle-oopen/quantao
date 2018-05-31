@@ -1,167 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neu.shop.dao.GoodsMapper">
-  <resultMap id="BaseResultMap" type="com.neu.shop.pojo.Goods">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
-    <result column="price" jdbcType="FLOAT" property="price" />
-    <result column="guide_short_url" jdbcType="VARCHAR" property="guideShortUrl" />
-    <result column="guide_long_url" jdbcType="VARCHAR" property="guideLongUrl" />
-    <result column="guide_key" jdbcType="VARCHAR" property="guideKey" />
-    <result column="coupon_value" jdbcType="VARCHAR" property="couponValue" />
-    <result column="coupon_start" jdbcType="DATE" property="couponStart" />
-    <result column="creat_end" jdbcType="DATE" property="creatEnd" />
-    <result column="creat_time" jdbcType="DATE" property="creatTime" />
-    <result column="coupon_long_url" jdbcType="VARCHAR" property="couponLongUrl" />
-    <result column="coupon_key" jdbcType="VARCHAR" property="couponKey" />
-    <result column="coupon_short_url" jdbcType="VARCHAR" property="couponShortUrl" />
-    <result column="is_plan" jdbcType="VARCHAR" property="isPlan" />
-    <result column="sale_num" jdbcType="INTEGER" property="saleNum" />
-    <result column="rebate" jdbcType="FLOAT" property="rebate" />
-    <result column="is_shelf" jdbcType="INTEGER" property="isShelf" />
-    <result column="source" jdbcType="INTEGER" property="source" />
-    <result column="free_shipping" jdbcType="INTEGER" property="freeShipping" />
-    <result column="coupon_total" jdbcType="INTEGER" property="couponTotal" />
-    <result column="coupon_count" jdbcType="INTEGER" property="couponCount" />
-    <result column="first_class" jdbcType="INTEGER" property="firstClass" />
-    <result column="second_class" jdbcType="INTEGER" property="secondClass" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.neu.shop.pojo.Goods">
-    <result column="description" jdbcType="LONGVARCHAR" property="description" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.neu.shop.pojo.Goods">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="price" jdbcType="FLOAT" property="price"/>
+        <result column="guide_short_url" jdbcType="VARCHAR" property="guideShortUrl"/>
+        <result column="guide_long_url" jdbcType="VARCHAR" property="guideLongUrl"/>
+        <result column="guide_key" jdbcType="VARCHAR" property="guideKey"/>
+        <result column="coupon_value" jdbcType="VARCHAR" property="couponValue"/>
+        <result column="coupon_start" jdbcType="DATE" property="couponStart"/>
+        <result column="creat_end" jdbcType="DATE" property="creatEnd"/>
+        <result column="creat_time" jdbcType="DATE" property="creatTime"/>
+        <result column="coupon_long_url" jdbcType="VARCHAR" property="couponLongUrl"/>
+        <result column="coupon_key" jdbcType="VARCHAR" property="couponKey"/>
+        <result column="coupon_short_url" jdbcType="VARCHAR" property="couponShortUrl"/>
+        <result column="is_plan" jdbcType="VARCHAR" property="isPlan"/>
+        <result column="sale_num" jdbcType="INTEGER" property="saleNum"/>
+        <result column="rebate" jdbcType="FLOAT" property="rebate"/>
+        <result column="is_shelf" jdbcType="INTEGER" property="isShelf"/>
+        <result column="source" jdbcType="INTEGER" property="source"/>
+        <result column="free_shipping" jdbcType="INTEGER" property="freeShipping"/>
+        <result column="coupon_total" jdbcType="INTEGER" property="couponTotal"/>
+        <result column="coupon_count" jdbcType="INTEGER" property="couponCount"/>
+        <result column="first_class" jdbcType="INTEGER" property="firstClass"/>
+        <result column="second_class" jdbcType="INTEGER" property="secondClass"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.neu.shop.pojo.Goods">
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     goodsId, goodsName, price, num, upTime, category, detailCate, activityId
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     description
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.neu.shop.pojo.GoodsExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExampleWithBLOBsLimit" parameterType="com.neu.shop.pojo.GoodsExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    limit 10
-  </select>
-  <select id="selectByExample" parameterType="com.neu.shop.pojo.GoodsExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from goods
-    where goodsId = #{goodsid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByExampleWithBLOBs" parameterType="com.neu.shop.pojo.GoodsExample" resultMap="ResultMapWithBLOBs">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExampleWithBLOBsLimit" parameterType="com.neu.shop.pojo.GoodsExample"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        limit 10
+    </select>
+    <select id="selectByExample" parameterType="com.neu.shop.pojo.GoodsExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from goods
+        where goodsId = #{goodsid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from goods
     where goodsId = #{goodsid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.neu.shop.pojo.GoodsExample">
-    delete from goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.neu.shop.pojo.Goods">
+    <delete id="deleteByExample" parameterType="com.neu.shop.pojo.GoodsExample">
+        delete from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.neu.shop.pojo.Goods">
     insert into goods (goodsId, goodsName, price, 
       num, upTime, category, 
       detailCate, activityId, description
@@ -171,182 +174,214 @@
       #{detailcate,jdbcType=VARCHAR}, #{activityid,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.neu.shop.pojo.Goods" useGeneratedKeys="true" keyProperty="goodsid">
-    insert into goods
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="goodsid != null">
-        goodsId,
-      </if>
-      <if test="goodsname != null">
-        goodsName,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="num != null">
-        num,
-      </if>
-      <if test="uptime != null">
-        upTime,
-      </if>
-      <if test="category != null">
-        category,
-      </if>
-      <if test="detailcate != null">
-        detailCate,
-      </if>
-      <if test="activityid != null">
-        activityId,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="goodsid != null">
-        #{goodsid,jdbcType=INTEGER},
-      </if>
-      <if test="goodsname != null">
-        #{goodsname,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=INTEGER},
-      </if>
-      <if test="num != null">
-        #{num,jdbcType=INTEGER},
-      </if>
-      <if test="uptime != null">
-        #{uptime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="category != null">
-        #{category,jdbcType=INTEGER},
-      </if>
-      <if test="detailcate != null">
-        #{detailcate,jdbcType=VARCHAR},
-      </if>
-      <if test="activityid != null">
-        #{activityid,jdbcType=INTEGER},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.neu.shop.pojo.GoodsExample" resultType="java.lang.Long">
-    select count(*) from goods
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-
-  <select id="loadAllGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select * from goods
-    <if test="classify != null">
-      where first_class=#{classify}
-    </if>
-      order by coupon_value, sale_num limit #{startNo} ,#{endNo}
-  </select>
-    <select id="loadAllGoodsCount"  parameterType="java.util.Map" resultType="java.lang.Integer">
+    <insert id="insertSelective" parameterType="com.neu.shop.pojo.Goods" useGeneratedKeys="true" keyProperty="goodsid">
+        insert into goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsid != null">
+                goodsId,
+            </if>
+            <if test="goodsname != null">
+                goodsName,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="uptime != null">
+                upTime,
+            </if>
+            <if test="category != null">
+                category,
+            </if>
+            <if test="detailcate != null">
+                detailCate,
+            </if>
+            <if test="activityid != null">
+                activityId,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsid != null">
+                #{goodsid,jdbcType=INTEGER},
+            </if>
+            <if test="goodsname != null">
+                #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=INTEGER},
+            </if>
+            <if test="uptime != null">
+                #{uptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=INTEGER},
+            </if>
+            <if test="detailcate != null">
+                #{detailcate,jdbcType=VARCHAR},
+            </if>
+            <if test="activityid != null">
+                #{activityid,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.neu.shop.pojo.GoodsExample" resultType="java.lang.Long">
         select count(*) from goods
-      <if test="classify != null">
-        where first_class=#{classify}
-      </if>
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
     </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update goods
-    <set>
-      <if test="record.goodsid != null">
-        goodsId = #{record.goodsid,jdbcType=INTEGER},
-      </if>
-      <if test="record.goodsname != null">
+
+    <select id="loadAllGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from goods
+        <if test="classify != null">
+            where first_class=#{classify,jdbcType=INTEGER}
+        </if>
+        order by coupon_value, sale_num limit #{startNo} ,#{endNo}
+    </select>
+    <select id="loadAllGoodsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from goods
+        <if test="classify != null">
+            where first_class=#{classify,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="loadSearchGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from goods
+        <if test="search != null">
+            where title like CONCAT('%',#{search},'%' )
+        </if>
+        order by coupon_value,sale_num  limit ${startNo},${endNo};
+    </select>
+
+
+    <select id="loadSearchGoodsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from goods
+        <if test="search != null">
+            where title like CONCAT('%',#{search},'%' )
+        </if>
+    </select>
+
+    <select id="loadAllPriceGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from goods where price &lt; #{endprice}
+        <if test="startprice != null">
+            and price &gt; #{startprice}
+        </if>
+        order by coupon_value, sale_num limit #{startNo} ,#{endNo}
+    </select>
+    <select id="loadAllPriceGoodsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from goods where price &lt; #{endprice}
+        <if test="startprice != null">
+            and price &gt; #{startprice}
+        </if>
+    </select>
+
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update goods
+        <set>
+            <if test="record.goodsid != null">
+                goodsId = #{record.goodsid,jdbcType=INTEGER},
+            </if>
+            <if test="record.goodsname != null">
+                goodsName = #{record.goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.price != null">
+                price = #{record.price,jdbcType=INTEGER},
+            </if>
+            <if test="record.num != null">
+                num = #{record.num,jdbcType=INTEGER},
+            </if>
+            <if test="record.uptime != null">
+                upTime = #{record.uptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.category != null">
+                category = #{record.category,jdbcType=INTEGER},
+            </if>
+            <if test="record.detailcate != null">
+                detailCate = #{record.detailcate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.activityid != null">
+                activityId = #{record.activityid,jdbcType=INTEGER},
+            </if>
+            <if test="record.description != null">
+                description = #{record.description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update goods
+        set goodsId = #{record.goodsid,jdbcType=INTEGER},
         goodsName = #{record.goodsname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.price != null">
         price = #{record.price,jdbcType=INTEGER},
-      </if>
-      <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
-      </if>
-      <if test="record.uptime != null">
         upTime = #{record.uptime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.category != null">
         category = #{record.category,jdbcType=INTEGER},
-      </if>
-      <if test="record.detailcate != null">
         detailCate = #{record.detailcate,jdbcType=VARCHAR},
-      </if>
-      <if test="record.activityid != null">
         activityId = #{record.activityid,jdbcType=INTEGER},
-      </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update goods
-    set goodsId = #{record.goodsid,jdbcType=INTEGER},
-      goodsName = #{record.goodsname,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=INTEGER},
-      num = #{record.num,jdbcType=INTEGER},
-      upTime = #{record.uptime,jdbcType=TIMESTAMP},
-      category = #{record.category,jdbcType=INTEGER},
-      detailCate = #{record.detailcate,jdbcType=VARCHAR},
-      activityId = #{record.activityid,jdbcType=INTEGER},
-      description = #{record.description,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update goods
-    set goodsId = #{record.goodsid,jdbcType=INTEGER},
-      goodsName = #{record.goodsname,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=INTEGER},
-      num = #{record.num,jdbcType=INTEGER},
-      upTime = #{record.uptime,jdbcType=TIMESTAMP},
-      category = #{record.category,jdbcType=INTEGER},
-      detailCate = #{record.detailcate,jdbcType=VARCHAR},
-      activityId = #{record.activityid,jdbcType=INTEGER}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.neu.shop.pojo.Goods">
-    update goods
-    <set>
-      <if test="goodsname != null">
-        goodsName = #{goodsname,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=INTEGER},
-      </if>
-      <if test="num != null">
-        num = #{num,jdbcType=INTEGER},
-      </if>
-      <if test="uptime != null">
-        upTime = #{uptime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="category != null">
-        category = #{category,jdbcType=INTEGER},
-      </if>
-      <if test="detailcate != null">
-        detailCate = #{detailcate,jdbcType=VARCHAR},
-      </if>
-      <if test="activityid != null">
-        activityId = #{activityid,jdbcType=INTEGER},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where goodsId = #{goodsid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.neu.shop.pojo.Goods">
+        description = #{record.description,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update goods
+        set goodsId = #{record.goodsid,jdbcType=INTEGER},
+        goodsName = #{record.goodsname,jdbcType=VARCHAR},
+        price = #{record.price,jdbcType=INTEGER},
+        num = #{record.num,jdbcType=INTEGER},
+        upTime = #{record.uptime,jdbcType=TIMESTAMP},
+        category = #{record.category,jdbcType=INTEGER},
+        detailCate = #{record.detailcate,jdbcType=VARCHAR},
+        activityId = #{record.activityid,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.neu.shop.pojo.Goods">
+        update goods
+        <set>
+            <if test="goodsname != null">
+                goodsName = #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=INTEGER},
+            </if>
+            <if test="uptime != null">
+                upTime = #{uptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="category != null">
+                category = #{category,jdbcType=INTEGER},
+            </if>
+            <if test="detailcate != null">
+                detailCate = #{detailcate,jdbcType=VARCHAR},
+            </if>
+            <if test="activityid != null">
+                activityId = #{activityid,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where goodsId = #{goodsid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.neu.shop.pojo.Goods">
     update goods
     set goodsName = #{goodsname,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
@@ -358,7 +393,7 @@
       description = #{description,jdbcType=LONGVARCHAR}
     where goodsId = #{goodsid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.neu.shop.pojo.Goods">
+    <update id="updateByPrimaryKey" parameterType="com.neu.shop.pojo.Goods">
     update goods
     set goodsName = #{goodsname,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},

@@ -44,7 +44,7 @@ public class FrontGoodsController {
         return null;
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/searchs", method = RequestMethod.GET)
     public String searchGoods(@RequestParam(value = "page",defaultValue = "1") Integer pn, String keyword, Model model, HttpSession session) {
         return null;
     }

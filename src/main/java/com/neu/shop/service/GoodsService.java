@@ -36,4 +36,11 @@ public interface GoodsService {
     public List<Goods> loadAllGoods(int pageNo,int pageSize,Integer classify);
 
     int loadAllGoodsCount(Integer classify);
+
+    List<Goods> loadAllPriceGoods(Integer pageNo, int pageSize, Integer startprice);
+
+    int loadAllPriceGoodsCount(Integer price);
+
+    List<Goods> loadSearchGoods(Integer pageNo, int pageSize, String search);
+    int loadSearchGoodsCount(String search);
 }

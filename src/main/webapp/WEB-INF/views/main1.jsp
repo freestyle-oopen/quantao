@@ -34,7 +34,7 @@
 </head>
 <body _hover-ignore="1">
 <div id="afp" class="totop-tips" style="display: none;" _hover-ignore="1"><p>请按键盘 <strong>CTRL + D</strong>
-    把九块邮放入收藏夹，折扣信息一手掌握！<label id="nlraf" onclick="CloseNLRAF(true)" for="check_nlraf"><input style="display:none;"
+    把券券淘放入收藏夹，折扣信息一手掌握！<label id="nlraf" onclick="CloseNLRAF(true)" for="check_nlraf"><input style="display:none;"
                                                                                              type="checkbox"
                                                                                              id="check_nlraf"><a
             href="javascript:void(0)">不再提醒</a></label><a id="cafp" href="javascript:void(0)"
@@ -102,8 +102,8 @@
             <ul class="navigation fl">
                 <li class="current first"><a href="/main" _hover-ignore="1">所有分类<em
                         class="cur"></em></a></li>
-                <li><a href="http://www.ju1jiukuaiyou.com/index.php?m=shijiu&amp;a=index" _hover-ignore="1">20封顶</a></li>
-                <li><a href="http://www.juji1ukuaiyou.com/index.php?m=jiu&amp;a=index" _hover-ignore="1">九块邮</a></li>
+                <li><a href="/freetwo?price=20" _hover-ignore="1">20封顶</a></li>
+                <li><a href="/freetwo?price=10" _hover-ignore="1">九块邮</a></li>
                 <li><a href="http://www.jujiukuaiyou.com/?m=quan" _hover-ignore="1">优惠券</a></li>
                 <li><a href="http://jujiukuaiyou.com/index.php?m=yugao&amp;a=index">明日预告</a></li>
                 <li><a href="http://www.juji1ukuaiyou.com/index.php?g=m" target="_blank" id="show-qcodes"><em
