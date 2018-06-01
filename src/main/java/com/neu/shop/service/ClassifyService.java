@@ -8,5 +8,4 @@ import java.util.List;
 @Service("classifyService")
 public interface ClassifyService {
 
-    List<Classify> loadAllFirstClass();
 }

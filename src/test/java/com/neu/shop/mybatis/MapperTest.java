@@ -1,8 +1,6 @@
 package com.neu.shop.mybatis;
 
-import com.neu.shop.dao.AdminMapper;
 //import com.neu.shop.dao.DepartmentMapper;
-import com.neu.shop.pojo.Admin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,6 @@ public class MapperTest {
     /*@Autowired(required = false)
     DepartmentMapper departmentMapper;*/
 
-    @Autowired(required = false)
-    AdminMapper adminMapper;
 
     /**
      * 测试DepartmentMapper
@@ -40,7 +36,6 @@ public class MapperTest {
         departmentMapper.insertSelective(new Department(null, "业务部"));
         departmentMapper.insertSelective(new Department(null, "销售部"));*/
 
-        System.out.println(adminMapper.selectByName(new Admin(null,"root","root")));
 
     }
 

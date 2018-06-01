@@ -4,10 +4,10 @@ public class Page {
     private int page;
     private int total;
     public Page(){}
-   public Page(int page,int total){
-       this.page=page;
-       this.total=total;
-   }
+    public Page(int page,int total){
+        this.page=page;
+        this.total=total;
+    }
     public int getPage() {
         return page;
     }
