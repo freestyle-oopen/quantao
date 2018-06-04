@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yesky.wcservice.mapper.AccessTokenDao">
+
+  <select id="getAccessToken" resultType="com.neu.shop.pojo.AccessToken">
+    select FACCESSTOKEN,FEXPIRESIN from ACCESS_TOKEN where fid=3
+ </select>
+
+<!--将access_token 存入数据库，若access_token过期，则重新获取后更新到数据库   access_token存在时间2小时-->
+  <update id="updateAccessToken" parameterType="com.neu.shop.pojo.AccessToken" >
+     update ACCESS_TOKEN set FACCESSTOKEN=#{faccesstoken},FEXPIRESIN=#{fexpiresin} where fid=3
+  </update>
+
+</mapper>

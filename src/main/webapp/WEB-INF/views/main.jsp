@@ -1,795 +1,1204 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 文辉
-  Date: 2017/7/18
-  Time: 14:21
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
+<%@page import="com.founder.oss.commons.CmsGlobals"%>
+<%@page import="com.founder.oss.commons.DateUtils"%>
+<%@page import="java.util.UUID"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/common/taglibs.jsp"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+
+<%@page
+        import="org.springside.modules.security.springsecurity.SpringSecurityUtils"%>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>淘一淘</title>
-    <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath}/css/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/sort.js"></script>
-    <script src="${pageContext.request.contextPath}/js/holder.js"></script>
-    <!-- 	<script>
-            $(document).ready(function(){
-                $(".list-group-item").hover(function(){
-                    $(this).children("div.sort-detail").show();
-                },function(){
-                    $(this).children("div.sort-detail").hide();
-                });
-            })
-        </script> -->
-    <script>
-        /*$(document).ready(function () {
-            $(".data-item-li").children("div").addClass("to-big");
-        });*/
+    <title>商品管理</title>
+    <style type="text/css">
+        table td,th{
+            border:0px;
+        }
+        #fileQueue {
+            background-color: #f2f2f2;
+            background-image: url("${ctx}/js/uploadify/progressBar.jpg");
+            background-position: 10px;
+            background-repeat: no-repeat;
+            height: 60px;
+            margin-bottom: 10px;
+            margin-left: 0px;
+            overflow: auto;
+            padding: 5px 5px;
+            width: 480px;
+        }
+    </style>
+    <%@ include file="/common/meta.jsp"%>
+    <link href="${ctx}/css/yui.css" type="text/css" rel="stylesheet" />
+    <link href="${ctx}/css/liststyle.css" type="text/css" rel="stylesheet" />
+    <link href="${ctx}/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="${ctx}/js/validate/jquery.validate.css" type="text/css"
+          rel="stylesheet" />
+
+    <script src="${ctx}/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <script src="${ctx}/js/jquery.form.js" type="text/javascript"></script>
+    <script src="${ctx}/js/validate/jquery.validate.js"
+            type="text/javascript"></script>
+    <script type="text/javascript" src="${ctx}/js/datecomponent/WdatePicker.js"></script>
+    <script src="${ctx}/js/thickbox.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${ctx}/js/lrtk.js"></script>
+    <link rel="stylesheet" href="${ctx}/css/thickbox.css" type="text/css"
+          media="screen" />
+    <link href="${ctx }/css/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" href="${ctx}/css/lrtk.css" rel="stylesheet" />
+    <script type="text/javascript"
+            src="${ctx}/xheditor-1.1.7/xheditor-1.1.7-zh-cn.min.js"></script>
+    <script src="${ctx}/js/jquery-ui-sortable/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="${ctx}/js/jquery-ui-sortable/jquery-ui.min.css" type="text/css" rel="stylesheet"/>
+    <link href="${ctx}/js/jquery-ui-sortable/jquery-ui.structure.min.css" type="text/css" rel="stylesheet"/>
+    <link href="${ctx}/js/jquery-ui-sortable/jquery-ui.theme.min.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript">
+        //360浏览器不进入$(function(){})//;所以这么写兼容所有浏览器
+        window.onload=function(){
+            //当前预览图片地址都放在一个字段里，页面获取后拆分放置
+            var val = $("#previewpicPaths").val();
+            if(val != null && val != ""){
+                var paths = val.split(",");
+                var len = paths.length;
+                for(var i = 1; i<len+1; i++){
+                    var idn = "#previewImg"+i;
+                    $(idn).val(paths[i-1]);
+                }
+            }
+
+            //xbhEditor编辑器图片上传回调函数
+            //调用下边这个方法，是上传完图片自动显示,但是设置的属性就不管用了。
+            function insertUpload2(msg) {
+                var _msg = msg.toString();
+                var _picture_name = _msg.substring(_msg.lastIndexOf("/")+1);
+                var _picture_path = Substring(_msg);
+                _picture_path = "<img escape='false' src='/upload"+_picture_path+"'/>";
+                $("#xh_editor").xheditor().pasteHTML("<strong>"+_picture_path+"</strong>")
+            }
+            //处理服务器返回到回调函数的字符串内容,格式是JSON的数据格式.
+            function Substring(s){
+                return s.substring(s.substring(0,s.lastIndexOf("/")).lastIndexOf("/"),s.length);
+            }
+            //初始化日期选框
+            show($("#serviceSpanType").val());
+            //初始化出版社和部门
+            //var publishName = $("#publishName").val();
+            var publishName = '${userLogin}';
+            var departName = $("#departName").val();
+            if(''!=publishName){
+                initDepart(publishName,departName);
+            }
+        }
+        function zoom(obj,size){
+            $(obj).width(size);
+            $(obj).height(size);
+        }
+        function checkpdf(val){
+            photoExt=val.substr(val.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+            if(photoExt!='.pdf'){
+                alert("请上传后缀名为pdf格式的文件!");
+                var file = document.getElementById("uploadPrereadUrl");
+                // for IE, Opera, Safari, Chrome
+                if (file.outerHTML) {
+                    file.outerHTML = file.outerHTML;
+                } else { // FF(包括3.5)
+                    file.value = "";
+                }
+            }
+        }
+        function setImg(obj1,obj2){
+            var val = document.getElementById(obj1).value;
+            if(regX(val)){
+                document.getElementById(obj2).value = document.getElementById(obj1).value;
+            }else{
+                alert("格式错误！请上传jpg、png或bmp格式图片文件。");
+            }
+        }
+        function setPreread(obj1,obj2){
+            var val = document.getElementById(obj1).value;
+            if(regX(val)){
+                document.getElementById(obj2).value = document.getElementById(obj1).value;
+            }else{
+                alert("格式错误！请上传zip格式压缩文件。");
+            }
+        }
+        function setGoods(){
+            document.getElementById("realuploadname").value = document.getElementById("uploadGoods").value;
+        }
+        function regX(val){
+            var patt1=new RegExp("\\.jpg$");
+            var patt2=new RegExp("\\.png$");
+            var patt3=new RegExp("\\.bmp$");
+            return patt1.test(val) || patt2.test(val) || patt3.test(val);
+        }
+
+        function show(an){
+            if(an==2){
+                document.getElementById("serviceTimesId2_1").style.display = "";
+                document.getElementById("serviceTimesId2_1_input").style.display = "";
+
+            }else{
+                document.getElementById("serviceTimesId2_1").style.display = "none";
+                document.getElementById("serviceTimesId2_1_input").style.display = "none";
+            }
+        }
+
+        function toDate(DateStr){
+            var converted = Date.parse(DateStr);
+            var myDate = new Date(converted);
+            if (isNaN(myDate)){
+                var arys= DateStr.split('-');
+                myDate = new Date(arys[0],--arys[1],arys[2]);
+            }
+            return myDate;
+        }
+
+
+        function verifyValue() {
+            try{
+                var merchandiseName = $('#merchandiseName').val();
+                var merchandiseDescription = $('#merchandiseDescription').val();
+                var discountRate = $('#discountRate').val();
+                var startDate1 = $('#startDate1').val();
+                var startDate2 = $('#startDate2').val();
+                var endDate1 = $('#endDate1').val();
+                var endDate2 = $('#endDate2').val();
+                var standardPrice = $('#standardPrice').val();
+                var recommend = $('#recommend').val();
+                var byDay = $('#byDay').val();
+                var byTimes = $('#byTimes').val();
+                var userLogin = $('#userLogin').val();
+                var serviceSpanType = $("#serviceSpanType").val();
+                var publishName = $("#publishName").val();
+                var departId = $("#departId").val();
+                var authDesc =  $("#authorDesc").val();
+                var resource = $("#filerealname").val();
+                var realfilename = "${realfilename}";
+                //提交form表单校验
+                if(serviceSpanType==2){
+                    if(startDate1==""||endDate1==""){
+                        alert("按日期计费时，日期必须选择");
+                        return false;
+                    }
+                }
+                if(''==publishName||''==departId){
+                    alert('出版社和部门必须选择。');
+                    return false;
+                }
+
+                if(merchandiseName==null || ""==merchandiseName){
+                    alert("商品名称不能为空");
+                    return false;
+                }
+                if(merchandiseName.length<1 || merchandiseName.length>200){
+                    alert("商品名称长度必须大于1个字符并且小于200个字符");
+                    return false;
+                }
+
+                var reg =/(^\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/;
+                if(standardPrice!=null && ""!=standardPrice && !reg.test(standardPrice)){
+                    alert("商品价格格式错误!");
+                    return false;
+                }
+
+                if(discountRate!="" && discountRate!=null && !/^(?:0|[1-9][0-9]?|100)$/.test(discountRate)){
+                    alert("折扣必须为0到100的整数！");
+                    return false;
+                }
+                if(startDate2!=null && endDate2!=null){
+                    var starttime = Date.parse(startDate2.replace(/-/g,"/"));
+                    var endtime = Date.parse(endDate2.replace(/-/g,"/"));
+                    if(endtime <= starttime){
+                        alert("折扣日期的开始时间必须早于结束时间！");
+                        return false;
+                    }
+                }
+
+                if(recommend!="" && recommend!=null && !/^[0-9]*[1-9][0-9]*$/.test(recommend)){
+                    alert("推荐度必须数字！");
+                    return false;
+                }
+                if(recommend!="" && recommend!=null && parseInt(recommend)>parseInt(1000000)){
+                    alert("推荐度必须为大于0并且小于1000000的正整数！");
+                    return false;
+                }
+
+                if(authDesc.length > 500)
+                {
+                    alert("输入的作者简介长度不能超过500个字符!");
+                    return false;
+                }
+                /* if(realfilename==""){
+                     if(resource==""||resource==null){
+                         if(!confirm("您所上传的资源为空，确认保存吗？"))
+                        return false;
+                     }
+                 }*/
+            }catch(e){
+                alert(e);
+            }
+            return true;
+        }
+
+        // 是否有纸书的其他信息显示
+        function zhiShuShowChange(an){
+            if(an == 1){
+                document.getElementById("zhiShuShow").style.display = "";
+            }else{
+                document.getElementById("zhiShuShow").style.display = "none";
+            }
+        }
+
+        // 是否免费的其他信息显示
+        function priceShowFunction(an){
+            if(an == 1){
+                document.getElementById("priceShow1").style.display = "";
+                document.getElementById("priceShow2").style.display = "";
+            }else{
+                $("#standardPrice").val(0.0);
+                document.getElementById("priceShow1").style.display = "none";
+                document.getElementById("priceShow2").style.display = "none";
+            }
+        }
+        //是否显示目录结构
+        function directoryStructureShowFunction(an){
+            if(an == 1){
+                document.getElementById("directoryStructureShow").style.display = "";
+                document.getElementById("directoryStructureShow2").style.display = "";
+            }else{
+                document.getElementById("directoryStructureShow").style.display = "none";
+                document.getElementById("directoryStructureShow2").style.display = "none";
+            }
+        }
     </script>
+    <script type="text/javascript">
+        function windowOpen(){
+            window.open("bar-select!show.action?t=${timeStamp}", "select1","modal=yes,top=224,left=400, width=460,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+        function windowOpen1(){
+            window.open("bar-selectBuy!showBuy.action?t=${timeStamp}", "select1","modal=yes,top=224,left=400, width=460,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+    </script>
+    <script type="text/javascript">
+        function windowOpen3(){
+            var merchandiseId = $("#merchandiseId").val();
+            var authorIds = $("#authorIds").val();
+            var roleIds = $("#roleIds").val();
+            var roleNames = $("#roleNames").val();
+            window.open("../system/goods!showAuthor.action?merchandiseId="+merchandiseId+"&authorIds="+authorIds+"&roleIds="+roleIds+"&roleNames="+roleNames, "设置作者","fullscreen=no,modal=yes,top=224,left=400, width=460,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+        function windowOpen4(){
+            var ids = $("#ids").val();
+            window.open("../system/merchandise-cat!showCatsByids.action?ids="+ids, "设置分类","fullscreen=no,modal=yes,top=224,left=400, width=460,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+        /**
+         * 初始化部门
+         */
+        function initDepart(publish,departName){
+            $.post("goods!getDepartsByPublishName.action",{"publishName":publish},function(data){
+                $("#departId").html('');
+                data = eval(data+"");
+                $("#departId").append('<option value=\"\">请选择</option>');
+                for(var o in data){
+                    if(data[o].typename==departName){
+                        $("#departId").append('<option selected=\"selected\" value=\"'+data[o].id+'\">'+data[o].typename+'</option>');
+                    }else{
+                        $("#departId").append('<option value=\"'+data[o].id+'\">'+data[o].typename+'</option>');
+                    }
+                }
+            });
+        }
+        /**
+         * 设置部门，选择出版社时异步获取
+         */
+        function setDepart(publish){
+            $.post("goods!getDepartsByPublishName.action",{"publishName":publish},function(data){
+                $("#departId").html('');
+                $("#departId").append('<option value=\"\">请选择</option>');
+                data = eval(data+"");
+                for(var o in data){
+                    $("#departId").append('<option value=\"'+data[o].id+'\">'+data[o].typename+'</option>');
+                }
+            });
+
+        }
+
+        function deletefileMap(target){
+            /*
+            var goodsId=$("#merchandiseId").val();
+            if(goodsId!=null&&(goodsId!=="")&&(fileId!=undefined)&&(fileId!=null)){//修改商品，从页面文件列表移除并从DB解除关联关系
+                $.post("goods!ajaxDeleteFileMap.action",
+                        {"merchandiseId":goodsId,
+                         "fileId":$(target).attr("fileGoodsId")},
+                         function(data){
+                        if(data.status=="1"){//db成功删除,将 文件从table移除
+                            $(this).parent().parent().parent().remove();
+                        }
+                    });
+            }else{//新增文件从table移除
+                $(target).parent().parent().parent().remove();
+                $('#uploadify').uploadify('cancel',$(target).attr("fileId"));
+            }
+            */
+            $(target).parent().parent().parent().remove();
+            $('#uploadify').uploadify('cancel',$(target).attr("fileId"));
+
+        }
+
+        function modifyfileMap(url,index,merchandiseName,goodsForm,filesizeshow){
+            var uuid = $("#merchandiseUuid").val();
+// 	 window.open("goods!update.action?t="+uuid, "select1","modal=yes,top=224,left=400, width=858,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+            window.open("goods!editUploadMultiFile.action?uuid=" + uuid + "&index=" + index, "select1","modal=yes,top=224,left=400, width=858,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+
+            // alert(url+merchandiseName+goodsForm+filesizeshow);
+
+        }
+
+        function relateEpub(index){
+            window.open("goods!uploadRelateEpub.action?isMultiFile=true&index="+index, "select1","modal=yes,top=224,left=400, width=858,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+        function uploadEpubZip(){
+            window.open("goods!uploadRelateEpub.action?isMultiFile=true&isEpubZip=true", "selectepub1","modal=yes,top=224,left=400, width=858,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+        //更新关联epub文件
+        function updateRelateEpub(index,file,data,response){
+            var fileName = $("#fileShowName"+index);
+            var epubFileName=file.name.substring(0,file.name.lastIndexOf("."));
+            alert("");
+            var filesizeshow = returnFloat(file.size / (1024*1024)) + "MB";
+            if(fileName[0]){
+                fileName.html(epubFileName+".epub("+filesizeshow+")");
+            }else{
+                $("#showEpubInfo"+index).append("<font id='fileShowName"+index+"' style='padding-left: 11px;' color='#ff0000'> "+epubFileName+".epub("+filesizeshow+")</font>");
+                $("#fileGoodsButton"+index).append("<input id='deleteEpubFile"+index+"' type='button' value='删除关联'  onClick='deleteEpub("+index+")' />");
+            }
+            $("input[name='fileGoodsList["+index+"].epubFileName").val(epubFileName);
+            $("#showEpubInfo"+index).append("<input type='hidden' id='epubFileName"+index+"' name='fileGoodsList["+index+"].epubFileName' value='"+epubFileName+"'>");
+            var filesize = "<input type='hidden' id='epubFileSize"+index+"' name='fileGoodsList["+index+"].epubFileSize' value='"+file.size+"'>";
+            $("#showEpubInfo"+index).append(filesize);
+            var infoArr = data.split(";");
+            var fileUploadpath = $("#epubFilePath"+index);
+            fileUploadpath.val(infoArr[1]);
+        }
+        //更新关联epub文件
+        function updateEpud(file,data,response){
+            var epubFileName=file.name.substring(0,file.name.lastIndexOf("."));
+            var filesizeshow = returnFloat(file.size / (1024*1024)) + "MB";
+            var infoArr = data.split(";");
+            $("#showEpubInfo_edup").html("");
+            $("#showEpubInfo_edup").append("<font id='fileShowName' style='padding-left: 11px;' color='#ff0000'> "+epubFileName+".zip("+filesizeshow+")</font>");
+            $("#showEpubInfo_edup").append("<input type='hidden'  name='zipPath' value='"+infoArr[1]+"'>");
+            //Ajax调用处理
+
+
+
+
+
+
+            $.ajax({
+                type:'post',
+                url:'goods!decompression.action',
+                data: {"zipPath":infoArr[1]},
+                cache:false,
+                dataType:'json',
+                success:function(data){
+
+                    alert("-----"+data.msg);
+                  var list=  ${fileGoodsList};
+                    alert("===="+list.length);
+
+
+                }
+            });
+
+
+
+
+
+
+
+
+
+        }
+
+        function inputEpubFile(data){
+            var indexNum=0;
+            while ($("input[name='fileGoodsList["+indexNum+"].merchandiseName").val()!=null){
+                var dupbNmae=
+                var fileName = $("#fileShowName"+index);
+                var epubFileName=file.name.substring(0,file.name.lastIndexOf("."));
+                var filesizeshow = returnFloat(file.size / (1024*1024)) + "MB";
+                if(fileName[0]){
+                    fileName.html(epubFileName+".epub("+filesizeshow+")");
+                }else{
+                    $("#showEpubInfo"+index).append("<font id='fileShowName"+index+"' style='padding-left: 11px;' color='#ff0000'> "+epubFileName+".epub("+filesizeshow+")</font>");
+                    $("#fileGoodsButton"+index).append("<input id='deleteEpubFile"+index+"' type='button' value='删除关联'  onClick='deleteEpub("+index+")' />");
+                }
+                $("input[name='fileGoodsList["+index+"].epubFileName").val(epubFileName);
+                $("#showEpubInfo"+index).append("<input type='hidden' id='epubFileName"+index+"' name='fileGoodsList["+index+"].epubFileName' value='"+epubFileName+"'>");
+                var filesize = "<input type='hidden' id='epubFileSize"+index+"' name='fileGoodsList["+index+"].epubFileSize' value='"+file.size+"'>";
+                $("#showEpubInfo"+index).append(filesize);
+                var infoArr = data.split(";");
+                var fileUploadpath = $("#epubFilePath"+index);
+                fileUploadpath.val(infoArr[1]);
+
+
+                indexNum++;
+            }
+
+        }
+        function returnFloat(value){
+            var value=Math.round(parseFloat(value)*100)/100;
+            var xsd=value.toString().split(".");
+            if(xsd.length==1){
+                value=value.toString()+".00";
+                return value;
+            }
+            if(xsd.length>1){
+                if(xsd[1].length<2){
+                    value=value.toString()+"0";
+                }
+                return value;
+            }
+        }
+
+        function deleteEpub(index){
+            $("#fileShowName"+index).remove();
+            $("#deleteEpubFile"+index).remove();
+            $("#epubFileSize"+index).val("");
+            $("#epubFilePath"+index).val("delete");//删除epub时，将删除标志暂时存放在epubFilepath中
+            $("#epubFileName"+index).val("");
+        }
+
+    </script>
+    <!-- 处理劳保的项目情况，对于编辑商品，仅仅显示 创建者、商品名称、审核状态、上架状态 -->
+    <!-- 在下面的地方增加了  -->
+
 </head>
 <body>
-<div id="main" class="container">
-    <!-- <div id="header">
-        <ul id="header_left">
-            <li id="login"><a href="">登录</a></li>
-            <li id="register"><a href="">注册</a></li>
-        </ul>
-        <ul>
-            <li><a href="">购物车</a></li>
-            <li><a href="">收藏夹</a></li>
-            <li><a href="">客服</a></li>
-        </ul>
+<div id="edit">
+    <div class="right" style="text-align: left">
+		<span style="margin-left: 20px;"><img
+                src="${ctx}/images/center_bt.png" />商品<s:if
+                test="merchandiseId == null">创建</s:if> <s:else>编辑</s:else> </span>
     </div>
-    <div>
+    <div class="nr">
+        <div class="center_nrbg_center" style="text-align: left">
+            <!--
+		<form id="mainForm" name="mainForm" action="goods!save.action?t=${timeStamp}&multiFilegoods=1"
+				method="post" >
+				-->
 
-    </div> -->
-    <div id="header">
-        <%@ include file="header.jsp" %>
-        <%--<%
-            String userId = (String) session.getAttribute("userId");
-            //out.println(userId);
-            String username = (String) session.getAttribute("username");
-            if (username == null) {
-        %>
-        <div class="row">
-            <div class="col-md-4" role="navigation">
-                <!-- <h1 style="font-size: 20px;margin-top: 9px">东大咸鱼</h1> -->
+            <form id="mainForm" name="mainForm" action="goods!saveMultiFileGoods.action?t=${timeStamp}"
+                  enctype="multipart/form-data" method="post" ">
 
-                <ul class="nav nav-pills">
+            <!-- 传递商品列表页面的掩藏域值， 用于在保存成功后，可以继续原来列表页面的当前页 -->
+            <!-- 列表页面查询条件 -->
+            <input type="hidden" id="queryMerchandiseName" name="queryMerchandiseName" value="${queryMerchandiseName}"/>
+            <input type="hidden" id="queryApproveStatus" name="queryApproveStatus" value="${queryApproveStatus}"/>
+            <input type="hidden" id="queryIds" name="queryIds" value="${queryIds}"/>
+            <input type="hidden" id="queryServiceSpanType" name="queryServiceSpanType" value="${queryServiceSpanType}" />
+            <input type="hidden" id="querySourceType" name="querySourceType" value="${querySourceType}" />
+            <!-- 列表页面分页 -->
+            <input type="hidden" name="page.pageNo" id="pageNo" value="${page.pageNo}" />
+            <input type="hidden" name="page.orderBy" id="orderBy" value="${page.orderBy}" />
+            <input type="hidden" name="page.order" id="order" value="${page.order}" />
+            <input type="hidden" name="typ" id="typ" value="${typ }"/>
 
-                    <li><a href="./login.jsp" style="color: #F22E00">请登录</a></li>
+            <input type="hidden"
+                   id="goodsForm" name="entity.goodsForm"
+                   value="${goodsForm}" />
+            <input type="hidden"
+                   id="sourceType" name="entity.sourceType"
+                   value="${sourceType}" />
 
+            <!-- end 列表页面查询条件+分页-->
 
-                    <li><a href="./register.jsp">注册</a></li>
-                </ul>
-            </div>
-            <div class="col-md-8">
-                <ul class="nav nav-pills pull-right">
-                    <li><a href="./login.jsp"> <span
-                            class="glyphicon glyphicon-comment"></span> 消息
-                    </a></li>
-                    <li><a href="./login.jsp"> <span
-                            class="glyphicon glyphicon-shopping-cart" style="color: #F22E00"></span>
-                        购物车
-                    </a></li>
-                    <li><a href="./login.jsp"> <span
-                            class="glyphicon glyphicon-star"></span> 收藏夹
-                    </a></li>
-                </ul>
-            </div>
-        </div>
-        <div id="header-nav">
-            <nav class="navbar navbar-default" id="header-nav-middle">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed"
-                                data-toggle="collapse"
-                                data-target="#bs-example-navbar-collapse-1"
-                                aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span> <span
-                                class="icon-bar"></span> <span class="icon-bar"></span> <span
-                                class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="./index.jsp"><!-- <img alt="Brand" style="display: inline-block;" src="./image/tao.jpg" width="20" height="20"> --><span class="logo-word">淘身边</span></a>
-                    </div>
+            <input type="hidden" id="merchandiseId" name="merchandiseId" value="${merchandiseId}" />
+            <input type="hidden" id="merchandiseUuid" name="merchandiseUuid" value="${entity.merchandiseUuid}" />
+            <input type="hidden" id="summarypicPaths" name="summarypicPaths" value="${entity.summarypicPaths }" />
+            <input type="hidden" id="previewpicPaths" name="previewpicPaths" value="${entity.previewpicPaths }" />
+            <input type="hidden" id="realfilename" name="realfilename" value="${entity.realfilename }">
+            <input type="hidden" id="fileUpdatetime" name="fileUpdatetime" value="${entity.fileUpdatetime }">
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse"
-                         id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li><a class="a-color" href="./index.jsp">首页</a></li>
-                            <li><a class="a-color" href="./login.jsp">发布闲置</a></li>
-                            <li class="dropdown"><a class="a-color" href="./login.jsp"
-                                                    class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                    aria-haspopup="true" aria-expanded="false">我的闲置 <span
-                                    class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="login.jsp">出售中</a></li>
-                                    <li><a href="login.jsp">交易中</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="./login.jsp">新消息</a></li>
-                                </ul></li>
-                        </ul>
+            <table border="0" style="width:95%" align="center">
 
-                        <form class="navbar-form navbar-right" role="search" method="get" action="./searchResult.jsp">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search" name="keyword">
+                <tr>
+                    <td width="150px" align="right">上传文件</td>
+                    <td colspan="3">
+
+                        <input type="hidden" name="entity.fileUploadpath" id="filePath" value="${fileUploadpath }">
+                        <input type="hidden" id="ctx" name="ctx" value="${ctx }">
+                        <input type="hidden" name="filerealname" id="filerealname" />
+                        <div style="background-color: #f2f2f2;">
+                            <div id="fileQueue"></div>
+                            <input type="file"  id="uploadify" />
+                            <p style="margin-left: 0px; font-size: 14; color: #EE7600;">
+                                <a id="file_doupload"
+                                   href="javascript:$('#uploadify').uploadify('upload','*')"
+                                   style="color: #EE7600; font-size: 14px;">上传 </a>&nbsp;&nbsp;&nbsp;
+                                <a id="file_dogohistory"
+                                   href="goods!editMultiFileGoods.action?merchandiseId=${merchandiseId}&t=${timeStamp}&height=340&width=750"
+                                   style="color: #EE7600; font-size: 14px;">返回 </a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:$('#uploadify').uploadify('cancel','*')"
+                                   id="cancelUpload"
+                                   style="color: #EE7600; font-size: 14px; display: none;">取消上传</a>
+                            </p>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150px" align="right">
+                        <input type="button" value="上传Epub压缩包"  onClick="uploadEpubZip()" />
+                    </td>
+                    <td>
+                        <div align="left" id="showEpubInfo_edup">
+                            <font id="fileShowName_edup" style="padding-left: 11px;" color="#ff0000">未选择压缩文件</font>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150px" align="right">&nbsp;</td>
+                    <td colspan="3">
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#d5e3e7" id="contentTable">
+                            <tr align="center">
+                                <td nowrap>文件封面</td>
+                                <td nowrap>文件名称</td>
+                                <td nowrap>文件类型</td>
+                                <td nowrap>文件大小</td>
+                                <td nowrap>操作</td>
+                                <td nowrap>已上传关联epub文件</td>
+
+                            </tr>
+                            <tbody id="resBody">
+
+                            <input type="hidden" id="filesize"  value="${fn:length(fileGoodsList)}">
+                            <s:iterator value="fileGoodsList" status="i">
+                                <tr class="idd" style=" background:#fff; cursor:pointer;" onmouseover="this.style.backgroundColor='#deedf2'" onmouseout="this.style.backgroundColor='#fff'">
+
+                                    <td><div align="center">
+                                        <input  type="file"  name="fileGoodsList[${i.index}].uploadimg"/>
+                                        <s:if test="iconUrl != null"><span style="padding-left: 5px"><img onmouseover="zoom(this,90)" width="30px" height="30px" onmouseout="zoom(this,30)" src="${fullIconUrl}"/></span></s:if>
+                                        <!--
+										<img
+										src="${iconUrl}"
+										style="width: 75px; height: 75px; border: 0;"
+										alt="${merchandiseName}" />&nbsp;
+										-->
+                                        <input  type="hidden"  name="fileGoodsList[${i.index}].iconUrl" value="${iconUrl}"/>
+                                    </div></td>
+                                    <td><div align="center">
+                                        <input  type="text" name="fileGoodsList[${i.index}].merchandiseName" value="${merchandiseName}"/>
+                                        <span  style="display:none;"  class="merchandiseName-fileUploadpath" >${fileUploadpath};${merchandiseName}</span>
+                                    </div></td>
+                                    <td><div align="center"><span>${goodsForm}&nbsp;</span>
+                                        <input  type="hidden"  name="fileGoodsList[${i.index}].goodsForm" value="${goodsForm}"/>
+
+                                    </div></td>
+                                    <td><div align="center"><span>${filesizeshow}&nbsp;</span>
+                                        <input  type="hidden"  name="fileGoodsList[${i.index}].filesize" value="${filesize}"/>
+                                            <%-- <fmt:formatNumber type="number" value="${filesizeshow}" maxFractionDigits="2"/>  --%>
+                                    </div></td>
+                                    <td>
+                                        <div align="center" id="fileGoodsButton${i.index}">
+                                            <input  type="hidden"  name="fileGoodsList[${i.index}].merchandiseId" value="${merchandiseId}"/>
+                                            <!-- 借用orders字段存放排序号 -->
+                                            <input  type="hidden"  name="fileGoodsList[${i.index}].orders" />
+                                            <input type="button" fileGoodsId="${merchandiseId}" value="删除"  onClick="deletefileMap(this);" />
+                                                <%-- 											      <input type="button" fileGoodsId="${merchandiseId}" value="更新文件"  onClick="javascript:$('#uploadify').uploadify('settings','*')" /> --%>
+                                            <input type="button" fileGoodsId="${merchandiseId}" value="更新文件"  onClick="modifyfileMap('${merchandiseUuid}','${i.index}')" />
+                                            <input type="button" fileGoodsId="${merchandiseId}" value="关联epub"  onClick="relateEpub('${i.index}')" />
+                                            <s:if test="epubFileName != null"><input id="deleteEpubFile${i.index}" type="button" value="删除关联"  onClick="deleteEpub('${i.index}')" /></s:if>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div align="center" id="showEpubInfo${i.index}">
+                                            <s:if test="epubFileName != null"><font id="fileShowName${i.index}" style="padding-left: 11px;" color="#ff0000">${epubFileName}.epub</font></s:if>
+                                            <input  type="hidden" id="epubFilePath${i.index}"  name="fileGoodsList[${i.index}].epubFilePath" />
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </s:iterator>
+
+                            <tr id="row0"  class="idd" style=" background:#fff; cursor:pointer;display:none;" onmouseover="this.style.backgroundColor='#deedf2'" onmouseout="this.style.backgroundColor='#fff'">
+                                <td><div align="center">
+                                    <input  type="file"  name="fileGoodsList[{index}].uploadimg"/>
+                                    <!--
+                                        <img
+                                        src="{iconUrl}"
+                                        style="width: 75px; height: 75px; border: 0;"
+                                        alt="{merchandiseName}" />&nbsp;
+                                        -->
+                                    <input  type="hidden"  name="fileGoodsList[{index}].iconUrl" value="{iconUrl}"/>
+                                    <input  type="hidden"  name="fileGoodsList[{index}].filesize" value="{filesize}"/>
+                                </div></td>
+                                <td><div align="center">
+                                    <input  type="text"  name="fileGoodsList[{index}].merchandiseName" value="{merchandiseName}"/>
+                                </div></td>
+                                <td><div align="center">{goodsForm}&nbsp;</div></td>
+                                <td><div align="center">{filesizeshow}&nbsp;</div></td>
+
+                                <td>
+                                    <div align="center" id="fileGoodsButton{index}">
+                                        <input  type="hidden" id="fileInfo" name="fileGoodsList[{index}].merchandiseDescription" value="{data}"/>
+                                        <span  style="display:none;"  class="merchandiseName-fileUploadpath" >{data}</span>
+                                        <input  type="hidden"  name="fileGoodsList[{index}].orders" />
+                                        <input type="button" resid="{merchandiseId}" fileId="{fileId}" value="删除"  onClick="deletefileMap(this);" />
+                                        <input type="button" resid="{merchandiseId}" fileId="{fileId}" value="关联epub"  onClick="relateEpub('{index}')" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div align="center" id="showEpubInfo{index}">
+                                        <input  type="hidden" id="epubFilePath{index}"  name="fileGoodsList[{index}].epubFilePath" />
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- 扫描框，对当前商品已上传成功的在文件服务器上的文件进行扫描并显示 -->
+                <c:if test="${merchandiseId != null && !empty merchandiseId }">
+                    <tr><td width="150px" align="right"></td><td colspan="3"><input style="padding:2px 10px;display:inline;" type="button" value="扫描" onclick="checkRealFile();"><h3 style="display:inline;padding:1px 20px;">扫描当前商品已经上传到服务器的文件信息</h3></td></tr>
+                    <tr id="norealfile" hidden = "hidden"><td width="150px" align="right"></td><td colspan="3"><span style="display:inline;padding:1px 40px;">未找到相关文件信息！</span></td></tr>
+                    <tr id="realfiletable" hidden ="hidden">
+                        <td width="150px" align="right"></td>
+                        <td colspan="3">
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#d5e3e7" id="contentTable">
+                                <tr align="center">
+                                    <td nowrap>文件名称</td>
+                                    <td nowrap>文件类型</td>
+                                    <td nowrap>文件大小</td>
+                                    <td nowrap>上传时间</td>
+                                </tr>
+                                <tbody id="realfiles" style="background:rgb(255,2552,255);">
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </c:if>
+                <tr>
+                    <td width="150px" align="right"><font color="#ff0000">*</font>商品名称 </td>
+                    <td >
+                        <input type="text" id="merchandiseName" name="entity.merchandiseName" value="${entity.merchandiseName}" />
+                    </td>
+                    <td width="150px" align="right">是否免费</td>
+                    <td><select name="entity.isFree" id="isFree" onChange="priceShowFunction(this.value);">
+                        <option value="1" <s:if test="entity.isFree==1">selected</s:if>>收费</option>
+                        <option value="0" <s:if test="entity.isFree==0">selected</s:if>>免费</option>
+                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">计费方式</td>
+                    <td ><select id="serviceSpanType"
+                                 name="entity.serviceSpanType" onChange="show(this.value);">
+                        <option value="2"
+                                <s:if test="entity.serviceSpanType == 2">selected</s:if>>日期计费</option>
+                        <option value="5"
+                                <s:if test="entity.serviceSpanType == 5">selected</s:if>>永久</option>
+                    </select></td>
+                    <td align="right" id="serviceTimesId2_1"><font color="#ff0000">*</font>起止日期</td>
+                    <td  id="serviceTimesId2_1_input"><input
+                            type="text" size="12" id="startDate1" name="entity.startDate"
+                            value="${entity.startDate}" onFocus="WdatePicker()" /> - <input
+                            type="text" size="12" id="endDate1" name="entity.expireDate"
+                            value="${entity.expireDate}" onFocus="WdatePicker()" /></td>
+                </tr>
+                <tr id="priceShow1">
+                    <td align="right">商品价格</td>
+                    <td><input type="text" id="standardPrice" name="entity.standardPrice" value="${entity.standardPrice}" /></td>
+                    <td align="right">商品折扣</td>
+                    <td>
+                        <input type="text" id="discountRate" name="discountRate" value='<fmt:formatNumber value="${discountRate}" type="currency" pattern="0"/>'/>
+                        <span style="padding-left: 10px;">0-100的整数</span>
+                    </td>
+                </tr>
+                <tr id="priceShow2">
+                    <td align="right">折扣开始日期</td>
+                    <td><input type="text" id="startDate2"
+                               name="entity.discountBeginDate" size="19"
+                               value="<s:date name='entity.discountBeginDate' format='yyyy-MM-dd HH:mm:ss'/>"
+                               onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" /></td>
+                    <td align="right">折扣结束日期</td>
+                    <td><input
+                            type="text" size="19" id="endDate2" name="entity.discountEndDate"
+                            value="<s:date name='entity.discountEndDate' format='yyyy-MM-dd HH:mm:ss'/>"
+                            onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" /></td>
+                </tr>
+                <tr>
+                    <td align="right">推荐度</td>
+                    <td ><input type="hidden" id="recommend"
+                                name="entity.recommend" value="${entity.recommend}">
+                        <div id="xzw_starSys">
+                            <div id="xzw_starBox">
+                                <ul class="star" id="star">
+                                    <li><a href="javascript:void(0)" title="1"
+                                           class="one-star">1</a></li>
+                                    <li><a href="javascript:void(0)" title="2"
+                                           class="two-stars">2</a></li>
+                                    <li><a href="javascript:void(0)" title="3"
+                                           class="three-stars">3</a></li>
+                                    <li><a href="javascript:void(0)" title="4"
+                                           class="four-stars">4</a></li>
+                                    <li><a href="javascript:void(0)" title="5"
+                                           class="five-stars">5</a></li>
+                                </ul>
+                                <div class="current-rating" id="showb"></div>
                             </div>
-                            <button type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-search" aria-label="搜索"></span>
-                            </button>
-                        </form>
-                    </div>
-                    <!-- /.navbar-collapse -->
-                </div>
-                <!-- /.container-fluid -->
-            </nav>
+                            <div class="description"></div>
+                        </div></td>
+                    <td align="right">商品分类</td>
+                    <td><input type="button" value="点击设置"
+                               onclick="windowOpen4();">  <input
+                            type="hidden" name="ids" id="ids" value="${ids}" /><input  size="30" readonly="readonly" type="text"
+                                                                                       name="subject" id="subject" value="${subject}"/><br/>
+                        <!-- 资源库推送过来的商品，增加推荐分类 -->
+                        <s:if test="entity.sourceType == 1">资源库推荐分类：${entity.textbookInfo }</s:if>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">是否有纸书</td>
+                    <td ><select name="hasPapers" onchange="zhiShuShowChange(this.value);">
+                        <option <s:if test="hasPapers==1">selected</s:if> value="1">是</option>
+                        <option <s:if test="hasPapers==2">selected</s:if>value="2">否</option>
+                    </select></td>
+                    <td align="right">纸书ISBN</td>
+                    <td><input type="text" name="paperbookIsbn" value="${paperbookIsbn}"/></td>
+                </tr>
+                <tr id="zhiShuShow">
+                    <td align="right">纸书定价</td>
+                    <td><input type="text" name="papersPrice"    value="${papersPrice}"/></td>
+                    <td align="right">纸书地址</td>
+                    <td ><input type="text" name="papersUrl" value="${papersUrl}"></td>
+                </tr>
+                <tr>
+                    <td align="right">作者</td>
+                    <td ><input type="button" value="点击设置作者"
+                                onclick="windowOpen3();" /> <input type="hidden" id="authorIds"
+                                                                   name="authorIds" value="${authorIds}"> <input
+                            type="hidden" id="roleIds" name="roleIds" value="${roleIds}">
+                        <input type="hidden" id="roleNames" name="roleNames"
+                               value="${roleNames}">  <input type="text"
+                                                             id="myAuthorNames" name="myAuthorNames" value="${authorNames}" disabled="disabled" >  <input type="hidden"
+                                                                                                                                                          id="authorNames" name="authorNames" value="${authorNames}"> </td>
+                    <td align="right">作者简介</td>
+                    <td ><textarea name="entity.authorDesc" id="authorDesc"
+                                   style="width: 150px; height: 50px;">${entity.authorDesc}</textarea><font color="#ff0000">500个字符以内</font></td>
+                </tr>
+                <tr>
+                    <td align="right">封面</td>
+                    <td colspan="3"><input
+                            type="file" id="uploadicon" name="uploadicon"/><font color="#ff0000">jpg文件，建议长高比率：246*246</font>
+                        <!-- 已经上传的封面 -->
+                        <s:if test="iconUrl != null">已上传封面<span style="padding-left: 5px"><img onmouseover="zoom(this,90)" width="30px" height="30px" onmouseout="zoom(this,30)" src="${fullIconUrl}"/></span></s:if>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">预览图</td>
+                    <td colspan="3"><input
+                            type="file" name="uploadPreview" value="" /> <font color="#ff0000">含有jpg文件的zip包。建议jpg长高比率：484*484</font>
+                        <s:if test="previewpicPaths != null">
+                            <c:forEach var="preview" items="${fullPreviewpicPaths}">
+                                <img src="${preview}" onmouseover="zoom(this,90)" width="30px" height="30px" onmouseout="zoom(this,30)" height="20px" />
+                            </c:forEach>
+                        </s:if>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">试读</td>
+                    <td colspan="3"><input
+                            type="file" id="uploadPrereadUrl" name="uploadPrereadUrl" onchange="checkpdf(this.value)" value=""/>
+                        <font color="#ff0000">只能上传pdf格式文件
+                            <s:if test="prereadUrl != null&&prereadUrl !=''">
+                                ,已上传过文件
+                            </s:if><s:else>
+                                请选择文件</s:else>
+                        </font>
+                    </td>
+                <tr>
+                    <td align="right">商品简介</td>
+                    <td><textarea  name="merchandiseDescription"
+                                   style="width: 150px; height: 50px;">${merchandiseDescription}</textarea></td>
+                    <td align="right">推荐设备</td>
+                    <td><input name="recommendPlat"   type="checkbox" <s:if test="recommendPlat.indexOf('0')>=0">checked="true"</s:if> value="0"/><span style="padding-left: 10px;">手机</span>
+                        <input name="recommendPlat" type="checkbox" <s:if test="recommendPlat.indexOf('1')>=0">checked="true"</s:if> value="1"/><span style="padding-left: 10px;">PAD</span>
+                        <input name="recommendPlat"  type="checkbox" <s:if test="recommendPlat.indexOf('2')>=0">checked="true"</s:if> value="2"/><span style="padding-left: 10px;">PC</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">是否有目录结构</td>
+                    <td><select name="hasMulu" onchange="directoryStructureShowFunction(this.value);" id=""hasMulu"">
+                        <option <s:if test="hasMulu==1">selected</s:if> value="1">是</option>
+                        <option <s:if test="hasMulu==0">selected</s:if>value="0">否</option>
+                        </select> </td>
+                    <td align="right" id="directoryStructureShow2">目录结构</td>
+                    <td><textarea name="directoryStructure" id="directoryStructureShow"
+                                  style="width: 150px; height: 50px;">${entity.directoryStructure}</textarea></td>
+                </tr>
+                <!-- 资源库：增加剩余需要的字段 begin -->
+                <tr>
+                    <td align="right">副书名</td>
+                    <td><input name="subtitle" type="text" value="${subtitle}"/></td>
+                    <td align="right">丛书名</td>
+                    <td><input name="seriesName" type="text" value="${seriesName}"/></td>
+                </tr>
+                <tr>
+                    <td align="right">版次</td>
+                    <td><input name="bookVersion" type="text"  value="${bookVersion }"/></td>
+                    <td align="right">开本</td>
+                    <td><input name="format" type="text"  value="${format}"/></td>
+                </tr>
+                <tr>
+                    <td align="right">ISBN号</td>
+                    <td><input name="isbn" type="text"  value="${isbn}"/></td>
+                    <td align="right">页数</td>
+                    <td><input name="textNum" type="text"  value="${textNum}"/></td>
+                </tr>
+                <tr>
+                    <td align="right">出版时间</td>
+                    <td>
+
+                        <input
+                                type="text" size="19" name="pubdate"
+                                value="<s:date name='pubdate' format='yyyy-MM-dd HH:mm:ss'/>"
+                                onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" /></td>
+                    <td align="right">支持的平台</td>
+                    <td><input name="supportPlatform"  type="checkbox" <s:if test="supportPlatform.indexOf('1')>=0">checked="true"</s:if> value="1"/><span style="padding-left: 10px;">Android</span>
+                        <input name="supportPlatform"  type="checkbox" <s:if test="supportPlatform.indexOf('2')>=0">checked="true"</s:if> value="2"/><span style="padding-left: 10px;">ios</span>
+                        <input name="supportPlatform"  type="checkbox" <s:if test="supportPlatform.indexOf('3')>=0">checked="true"</s:if> value="3"/><span style="padding-left: 10px;">pc</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">关键词</td>
+                    <td ><input name="subjectTerm" type="text" size="40" value="${subjectTerm}"/>多个关键词之间逗号分隔</td>
+                    <td align="right">课程代码</td>
+                    <td>
+                        <input type="text" id="courseCode" name="entity.courseCode" value="${entity.courseCode}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">本次更新说明</td>
+                    <td>
+                        <textarea rows="3" cols="20" id="mark" name="entity.mark"></textarea>
+                    </td>
+                    <td align="right">电子书或媒体资源</td>
+                    <td>
+                        <select name="entity.bookOrMedia" id="bookOrMedia">
+                            <option value="" <s:if test="entity.bookOrMedia==''">selected</s:if>>请选择</option>
+                            <option value="1" <s:if test="entity.bookOrMedia==1">selected</s:if>>电子书</option>
+                            <option value="2" <s:if test="entity.bookOrMedia==2">selected</s:if>>媒体资源</option>
+                        </select>
+                    </td>
+                </tr>
+                <!-- 资源库：增加剩余需要的字段 end -->
+                <tr>
+                    <td align="right"><font color="#ff0000">*</font>出版社</td>
+                    <td><select id="publishName" name="publishName" onchange="setDepart(this.value);" value="${publishName}">
+                        <option value="">请选择</option>
+                        <s:iterator value="publishersList" var ="publish">
+                            <option <s:if test="userLogin==username">selected="selected"</s:if> value="${publish.username}">${publish.realname}</option>
+                        </s:iterator>
+                    </select></td>
+                    <td align="right"><font color="#ff0000">*</font>部门</td>
+                    <td><select id="departId" name="entity.departId">
+                        <option value="">请选择</option>
+                    </select><input type="hidden" id="departName" value="${departName}"/></td>
+                </tr>
+                <!-- 20170216关联资源组 开始 -->
+                <tr>
+                    <td align="right">资源关联组</td>
+                    <td><input type="button" value="点击单选设置" onclick="related();" />&nbsp;&nbsp;(上架后生效)</td>
+                    <td align="right">资源关联课程</td>
+                    <td><input type="button" value="查看及设置关联课程" onclick="relatedCourse();" />&nbsp;&nbsp;(上架后生效)</td>
+                </tr>
+                <tr>
+                    <td align="right">已选择资源关联组：</td>
+                    <td><input type="hidden" id="groupId" name="groupid" value="${groupid }"/>
+                        <span id="groupName"><c:if test="${empty associateGroupName}">无</c:if><c:if test="${not empty associateGroupName}">${associateGroupName}</c:if></span>
+                        <input type="button" value="删除关联资源" onclick="deleteRelated()"/>&nbsp;&nbsp;(上架后生效)</td>
+                    <td align="right">已选择所属课程：</td>
+                    <td><input type="hidden" id="courseid" name="courseid" value="${courseid }"/>
+                        <input type="text" disabled="disabled" id="courseNames" value="${courseCode }"/></td>
+                </tr>
+                <!-- 20170216关联资源组 结束 -->
+                <tr align="center">
+                    <td colspan="4">
+                        <input type="hidden" id="isuploadpack" name="isuploadpack" value="" />
+                        <input type="button" id="submit0" value="保 存" class="button" onclick="saveInfo();" />
+                        <input type="button" value="取 消" class="button" onClick="window.close();" />
+                        <span id="suggestMessage" style="visibility: hidden;">
+								<font color="orange" style="font-style: italic;"> √ 保存成功，请等待文件上传完成</font>
+							</span>
+                    </td>
+                </tr>
+            </table>
+            </form>
         </div>
-        <%
-        } else {
-        %>
-        <div class="row">
-            <div class="col-md-4" role="navigation">
-                <!-- <h1 style="font-size: 20px;margin-top: 9px">东大咸鱼</h1> -->
+    </div>
 
-                <ul class="nav nav-pills">
-                    <li class="info-a"><a href="./info.jsp"
-                                          style="color: #F22E00"><%=username%><span class="glyphicon glyphicon-triangle-bottom" style="font-size: 5px;margin-left: 7px;" aria-hidden="true"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="./info.jsp">账户管理</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="./login.jsp" class="login-out">退出登录</a></li>
+    <script type="text/javascript">
 
-                        </ul></li>
-                    <li><a href="register.jsp">注册</a></li>
-                </ul>
-            </div>
-            <div class="col-md-8">
-                <ul class="nav nav-pills pull-right">
-                    <li><a href="./chat.jsp"> <span
-                            class="glyphicon glyphicon-comment"></span> 消息
-                    </a></li>
-                    <li><a href="./shopcart.jsp"> <span
-                            class="glyphicon glyphicon-shopping-cart" style="color: #F22E00"></span>
-                        购物车
-                    </a></li>
-                    <li><a href="./favorite.jsp"> <span
-                            class="glyphicon glyphicon-star"></span> 收藏夹
-                    </a></li>
-                </ul>
-            </div>
-        </div>
-        <div id="header-nav">
-            <nav class="navbar navbar-default" id="&lt;%&ndash;header-nav-middle&ndash;%&gt;">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed"
-                                data-toggle="collapse"
-                                data-target="#bs-example-navbar-collapse-1"
-                                aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span> <span
-                                class="icon-bar"></span> <span class="icon-bar"></span> <span
-                                class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="./index.jsp"><span class="logo-word">淘身边</span></a>
-                    </div>
+        // 设置上传控件的超链接按钮不可用，不可点击
+        function setUploadDisable(){
+            try{
+                // 设置上传、取消上传、上传返回为不可编辑
+                var cancelUpload = document.getElementById("cancelUpload");
+                var file_doupload = document.getElementById("file_doupload");
+                var file_dogohistory = document.getElementById("file_dogohistory");
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse"
-                         &lt;%&ndash;id="bs-example-navbar-collapse-1"&ndash;%&gt;>
-                        <ul class="nav navbar-nav">
-                            <li><a class="a-color" href="./index.jsp">首页</a></li>
-                            <li><a class="a-color" href="./release.jsp">发布闲置</a></li>
-                            <li class="dropdown"><a class="a-color" href="./info.jsp"
-                                                    class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                    aria-haspopup="true" aria-expanded="false">我的闲置 <span
-                                    class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="info.jsp">出售中</a></li>
-                                    <li><a href="info.jsp">交易中</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="./chat.jsp">新消息</a></li>
-                                </ul></li>
-                        </ul>
+                // 设置不可用
+                cancelUpload.disabled='disabled';
+                file_doupload.disabled='disabled';
+                file_dogohistory.disabled='disabled';
 
-                        <form class="navbar-form navbar-right" role="search" method="get" action="./searchResult.jsp">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search" name="keyword">
-                            </div>
-                            <button type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-search" aria-label="搜索"></span>
-                            </button>
-                        </form>
-                    </div>
-                    <!-- /.navbar-collapse -->
-                </div>
-                <!-- /.container-fluid -->
-            </nav>
-        </div>
-        <%
+                // 去掉超链接的href
+                cancelUpload.removeAttribute("href");
+                file_doupload.removeAttribute("href");
+                file_dogohistory.removeAttribute("href");
+
+                // 去掉点击
+                cancelUpload.onclick=null;
+                file_doupload.onclick=null;
+                file_dogohistory.onclick=null;
+
+                // 去掉下划线
+                cancelUpload.style.textDecoration= 'none';
+                file_doupload.style.textDecoration= 'none';
+                file_dogohistory.style.textDecoration= 'none';
+            }catch(e){
             }
-        %>--%>
-        <!-- 旋转图 -->
-        <div class="header-bottom">
-            <div class="sort">
-                <div class="sort-channel">
-                    <ul class="sort-channel-list list-group">
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/category?cate=数码">数码</a>
-                            <div class="sort-detail">
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=手机">手机</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=手机壳">手机壳</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=充电器">充电器</a> <a href="">电池</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=耳机">耳机</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=相机">相机</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=镜头">镜头</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=单反">单反</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=胶片">胶片</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=摄像">摄像</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=电脑">电脑</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=显示屏">显示屏</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=显卡">显卡</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=硬盘">硬盘</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=内存条">内存条</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=影音">影音</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=MP3">MP3</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=音响">音响</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=麦克风">麦克风</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=收音机">收音机</a>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/category?cate=日用">日用</a>
-                            <div class="sort-detail">
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=护肤">护肤</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=洗发水">洗发水</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=沐浴露">沐浴露</a> <a href="">洗面奶</a> <a
-                                            href="">洗手液</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=美妆">美妆</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=面膜">面膜</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=口红">口红</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=防嗮">防嗮</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=香水">香水</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=家居">家居</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=书架">书架</a><a href="${pageContext.request.contextPath}/category?cate=鞋柜">鞋柜</a>
-                                        <a href="${pageContext.request.contextPath}/category?cate=衣架">衣架</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=台灯">台灯</a>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/category?cate=闲置书籍">书籍</a>
-                            <div class="sort-detail">
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=英语">英语</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=四六级">四六级</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=充电器">商务英语</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=听力">听力</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=考研">考研</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=考研">考研</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=计算机">计算机</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=自动化">自动化</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=金融">金融</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=其他">其他</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=体育">体育</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=足球">足球</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=乒乓球">乒乓球</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=篮球">篮球</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=羽毛球">羽毛球</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=经典">经典</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=历史">历史</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=名人">名人</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=政治">政治</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=小说">小说</a>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/category?cate=服饰">服饰</a>
-                            <div class="sort-detail">
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=女装">女装</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=连衣裙">连衣裙</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=充电器"> 半身裙</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate= T恤"> T恤 衬衫</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=卫衣">卫衣</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=男装">男装</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=外套">外套</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=衬衫">衬衫</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=夹克">夹克</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=运动外套">运动外套</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=鞋子">鞋子</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=运动鞋">运动鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=单鞋">单鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=皮鞋">皮鞋</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=拖鞋">拖鞋</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=箱包">箱包</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=女包">女包</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=男包">男包</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=旅行箱">旅行箱</a>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/category?cate=装饰品">装饰品</a>
-                            <div class="sort-detail">
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=配饰">配饰</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=腰带">腰带</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=皮带">皮带</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=帽子">帽子</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=围巾">围巾</a>
-                                        <a
-                                                href="${pageContext.request.contextPath}/category?cate=手套">手套</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=手表">手表</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=机械表">机械表</a><a
-                                            href="${pageContext.request.contextPath}/category?cate=石英表">石英表</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=电子表">电子表</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=饰品">饰品</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=眼镜">眼镜</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=手链">手链</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=项链">项链</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=吊坠">吊坠</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=收藏品">收藏品</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=古玩">古玩</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=邮票">邮票</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=钱币">钱币</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=陶瓷">陶瓷</a>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/category?cate=学习用品">学习用品</a>
-                            <div class="sort-detail">
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=编码">编码</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=Java">Java</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=PHP">PHP</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=C">C++</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=Python">Python</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=培训">培训</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=驾照">驾照</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=考研">考研</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=计算机证书">计算机证书</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=四六级">四六级</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=线上课程">线上课程</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=健身">健身</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=考证">考证</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=学习">学习</a>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/category?cate=闲置百货">百货</a>
-                            <div class="sort-detail">
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=日用">日用</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=雨伞">雨伞</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=口罩">口罩</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=拖布">拖布</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=电风扇">电风扇</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=餐具">餐具</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=餐盘">餐盘</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=保温杯">保温杯</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=饭盒">饭盒</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=餐具套装">餐具套装</a>
-                                    </dd>
-                                </dl>
-                                <dl class="dl-hor">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/category?cate=出行">出行</a>
-                                    </dt>
-                                    <dd>
-                                        <a href="${pageContext.request.contextPath}/category?cate=自行车">自行车</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=电动车">电动车</a> <a
-                                            href="${pageContext.request.contextPath}/category?cate=滑板">滑板</a>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!-- <div class="sort-detail">
-                    <dl class="dl-horizontal">
-                        <dt>手机</dt>
-                        <dd>
-                            <a href="${pageContext.request.contextPath}/category?cate=手机壳">手机壳</a>
-                            <a href="${pageContext.request.contextPath}/category?cate=充电器">充电器</a>
-                            <a href="">电池</a>
-                            <a href="${pageContext.request.contextPath}/category?cate=耳机">耳机</a>
-                        </dd>
-                    </dl>
-                    <dl class="dl-horizontal">
-                        <dt>相机</dt>
-                        <dd>
-                            <a href="">镜头</a>
-                            <a href="">单反</a>
-                            <a href="">胶片</a>
-                            <a href="">摄像</a>
-                        </dd>
-                    </dl>
-                    <dl class="dl-horizontal">
-                        <dt>电脑</dt>
-                        <dd></dd>
-                    </dl>
-                    <dl class="dl-horizontal">
-                        <dt>MP3</dt>
-                        <dd></dd>
-                    </dl>
-                </div> -->
-            </div>
-            <div id="mycarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="${pageContext.request.contextPath}/image/4.jpg" alt="">
-                    </div>
+        }
 
-                    <div class="item">
-                        <img src="${pageContext.request.contextPath}/image/3.jpg" alt="">
-                    </div>
-                    <div class="item">
-                        <img src="${pageContext.request.contextPath}/image/5.jpg" alt="">
-                    </div>
-                    <div class="item">
-                        <img src="${pageContext.request.contextPath}/image/6.jpg" alt="">
-                    </div>
-                </div>
+        //added by wangwei : 判断用户是否需要上传数据包
+        function saveInfo(){
+            if(!verifyValue())return;
+            setUploadDisable();
+            $('#mainForm').submit();
+        }
+    </script>
 
-                <ol class="carousel-indicators">
-                    <li data-target="#mycarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#mycarousel" data-slide-to="1"></li>
-                    <li data-target="#mycarousel" data-slide-to="2"></li>
-                    <li data-target="#mycarousel" data-slide-to="3"></li>
-                </ol>
+    <script type="text/javascript"
+            src="${ctx }/js/uploadify/jquery.uploadify-3.1.min.js?t=${timeStamp}">
+    </script>
+    <style type="text/css">
+        #fileQueue {
+            background-color: #f2f2f2;
+            background-image: url("${ctx}/js/uploadify/progressBar.jpg");
+            background-position: 10px;
+            background-repeat: no-repeat;
+            height: 60px;
+            margin-bottom: 10px;
+            margin-left: 0px;
+            overflow: auto;
+            padding: 5px 5px;
+            width: 480px;
+        }
+    </style>
+    <!-- css/img/uploadify-cancel.png" -->
+    <script type="text/javascript">
+        var type = $("#resourceType").val();
+        /* function check(){
+            var type = $("#resourceType").val();
+            alert(type);
+            if (type == 0) {
+                type = "*.dpub";
+            }else if(type == 1){
+                type = "*.zip";
+            }
+            var upload = $('#uploadify');
+            //upload.uploadifySettings('fileExt', type);
+            uploadify("settings", 'fileExt', type);
+        } */
 
-                <a class="left carousel-control" href="#mycarousel" role="button"
-                   data-slide="prev" style="display: none;"> <span
-                        class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a> <a class="right carousel-control" href="#mycarousel" role="button"
-                        data-slide="next" style="display: none;"> <span
-                    class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-            </div>
-            <div class="clear-float"></div>
-        </div>
-    </div>
-    <div class="content">
+        $(document).ready(function() {
+            var filesize=$("#filesize").val();
+            $("#uploadify").uploadify({
+                'swf' : '${ctx}/js/uploadify/uploadify.swf',
+                'uploader' : '${ctx}/upload?uuid=', // 多文件不传uuid，uploadservlet自动添加
+                'folder' : 'uploadFile',
+                'queueID' : 'fileQueue',
+                'queueSizeLimit' : '100',	// 队列里面，待上传的数量
+                'removeTimeout' : '100',
+                'removeCompleted' : false,
+                'fileTypeDesc' : '请选择文件上传',
+                'fileTypeExts' : '${canUseGoodTypes}',
+                'auto' : false,
+                'fileSizeLimit' : '<%=Integer.parseInt(CmsGlobals.getCmsProperty("param.dataSize"))*1024 %>',
+                'multi' : true,		// 是否可以同时上传
+                'onUploadStart' : function(file)
+                {
+                    document.getElementById("cancelUpload").style.display = "inline";
+                    //document.getElementById("submit0").disabled='disabled';
+                },
+                'onCancel':function(file){
+                    alert('文件'+file.name+'被取消了.');
+                },
+                'onUploadError' : function(file, errorCode, errorMsg, errorString) //文件上传失败,后调用的函数
+                {
+                    alert("文件上传失败");
+                },
+                'onUploadComplete' : function(file) { //上传文件成功后触发的事件
 
-        <c:if test="${!empty digGoods}">
-            <div class="module">
-                <div class="hd">
-                    <h2>数码</h2>
-                    <hr>
-                </div>
+                },
+                'onUploadSuccess':function(file,data,response){ //每一个文件上传成功后触发
 
-                <div class="bd">
-                    <div class="data">
-                        <ul>
-                            <c:forEach items="${digGoods}" var="goods">
-                                <li class="data-item-li">
-                                    <div class="to-big">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${goods.goodsid}"><img src="/shopimage/${goods.imagePaths[0].path}" alt=""
-                                                        width="200" height="200"/>
-                                        </a>
-                                    </div>
-                                    <p class="text-right">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${goods.goodsid}">${goods.goodsname}</a>
-                                    </p>
-                                    <div class="text-right">
-                                        <b>￥${goods.price}</b>
-                                    </div>
-                                    <div>
-                                        <c:if test="${goods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart btn btn-default"
-                                                    data-id="${goods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <c:if test="${!goods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart-empty btn btn-default"
-                                                    data-id="${goods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <!-- <button class="like-button1 glyphicon glyphicon-heart-empty btn btn-default "></button> -->
-                                    </div>
-                                </li>
-                            </c:forEach>
+                    if(data == 1){
+                        alert("当前网络环境较差，请稍后再试！");
+                        return;
+                    }
+                    var type=file.type;
+                    var  fileName=file.name;
+                    var  fileId=file.id;
+                    var fileGoodObj={};
+                    fileGoodObj.merchandiseName=fileName.substring(0,fileName.lastIndexOf("."));
+                    fileGoodObj.goodsForm=type.substring(1);
+                    // 这儿缺少东西。文件大小需要存成long类型。由程序自动解析如何显示。
+                    fileGoodObj.filesize = file.size;
+                    fileGoodObj.filesizeshow=parseFloat((file.size/(1024*1024)).toFixed(2))+"MB";
+                    fileGoodObj.data=data;
+                    fileGoodObj.fileId=file.id;
+                    fileGoodObj.index=filesize++;
+                    //多文件表格插入上传文件的数据
+                    $newRow = $("#row0").clone();
+                    var newRowHtml = $newRow.html();
+                    for(var attr in fileGoodObj){
+                        //普通浏览器
+                        newRowHtml = newRowHtml.replace(new RegExp("\\{" + attr + "}","g"),fileGoodObj[attr]+"");
+                        //火狐浏览器需要重新编码
+                        var oldStr = encodeURI("{" + attr + "}");
+                        newRowHtml = newRowHtml.replace(new RegExp("\\" + oldStr + "","g"),fileGoodObj[attr]+"");
+                    }
+
+                    $newRow.html(newRowHtml);
+                    $newRow.show();
+                    $("#row0").parent().append($newRow);
 
 
-                            <div class="clear-float" style="clear: both;"></div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </c:if>
+                    if(data !=null){
+                        document.getElementById("isuploadpack").value="true"; // 文件修改完成修改上传的状态位
+                    }
+                }
+            });
+        });
 
-        <c:if test="${!empty houseGoods}">
-            <div class="module">
-                <div class="hd">
-                    <h2>家电</h2>
-                    <hr>
-                </div>
+        function updateFile(index,file,data,response){
+            var fileName = $("input[name='fileGoodsList["+index+"].merchandiseName']");
+            var merchandiseName=file.name.substring(0,file.name.lastIndexOf("."));
+            fileName.val(merchandiseName);
 
-                <div class="bd">
-                    <div class="data">
-                        <ul>
-                            <c:forEach items="${houseGoods}" var="housegoods">
-                                <li class="data-item-li">
-                                    <div class="to-big">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${housegoods.goodsid}"> <img
-                                                src="/shopimage/${housegoods.imagePaths[0].path}" alt=""
-                                                width="200" height="200">
-                                        </a>
-                                    </div>
-                                    <p class="text-right">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${housegoods.goodsid}">${housegoods.goodsname}</a>
-                                    </p>
-                                    <div class="text-right">
-                                        <b>￥${housegoods.price}</b>
-                                    </div>
-                                    <div>
-                                        <c:if test="${housegoods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart btn btn-default"
-                                                    data-id="${housegoods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <c:if test="${!housegoods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart-empty btn btn-default"
-                                                    data-id="${housegoods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <!-- <button class="like-button1 glyphicon glyphicon-heart-empty btn btn-default "></button> -->
-                                    </div>
-                                </li>
-                            </c:forEach>
+            var fileType = $("input[name='fileGoodsList["+index+"].goodsForm']");
+            fileType.val(file.type);
+            fileType.prev().text(file.type);
 
-                            <div class="clear-float" style="clear: both;"></div>
-                        </ul>
+            var filesize = $("input[name='fileGoodsList["+index+"].filesize']");
 
-                    </div>
-                </div>
-            </div>
-        </c:if>
+            var infoArr = data.split(";");
+            var fileUploadpath = "<input type=\"hidden\" name=\"fileGoodsList["+index+"].fileUploadpath\" value=\""+infoArr[1]+"\"/>";
 
-        <c:if test="${!empty colGoods}">
-            <div class="module">
-                <div class="hd">
-                    <h2>服饰</h2>
-                    <hr>
-                </div>
+            filesize.after(fileUploadpath);
+            filesize.val(file.size);
+            var filesizeshow = file.size / (1024*1024) + "MB";
+            filesize.prev().text(filesizeshow);
 
-                <div class="bd">
-                    <div class="data">
-                        <ul>
-                            <c:forEach items="${colGoods}" var="colgoods">
-                                <li class="data-item-li">
-                                    <div class="to-big">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${colgoods.goodsid}"> <img
-                                                src="/shopimage/${colgoods.imagePaths[0].path}" alt=""
-                                                width="200" height="200">
-                                        </a>
-                                    </div>
-                                    <p class="text-right">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${colgoods.goodsid}">${colgoods.goodsname}</a>
-                                    </p>
-                                    <div class="text-right">
-                                        <b>￥${colgoods.price}</b>
-                                    </div>
-                                    <div>
-                                        <c:if test="${colgoods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart btn btn-default"
-                                                    data-id="${colgoods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <c:if test="${!colgoods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart-empty btn btn-default"
-                                                    data-id="${colgoods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <!-- <button class="like-button1 glyphicon glyphicon-heart-empty btn btn-default "></button> -->
-                                    </div>
-                                </li>
-                            </c:forEach>
+        }
 
-                            <div class="clear-float" style="clear: both;"></div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </c:if>
+        $(function(){
+            $("#resBody").sortable({
+                update: function( event, ui ) {
 
-        <c:if test="${!empty bookGoods}">
-            <div class="module">
-                <div class="hd">
-                    <h2>书籍</h2>
-                    <hr>
-                </div>
+                    var checks = $("[onClick='deletefileMap(this);']:visible");
 
-                <div class="bd">
-                    <div class="data">
-                        <ul>
-                            <c:forEach items="${bookGoods}" var="bookgoods">
-                                <li class="data-item-li">
-                                    <div class="to-big">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${bookgoods.goodsid}"> <img
-                                                src="/shopimage/${bookgoods.imagePaths[0].path}" alt=""
-                                                width="200" height="200">
-                                        </a>
-                                    </div>
-                                    <p class="text-right">
-                                        <a href="${pageContext.request.contextPath}/detail?goodsid=${bookgoods.goodsid}">${bookgoods.goodsname}</a>
-                                    </p>
-                                    <div class="text-right">
-                                        <b>￥${bookgoods.price}</b>
-                                    </div>
-                                    <div>
-                                        <c:if test="${bookgoods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart btn btn-default"
-                                                    data-id="${bookgoods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <c:if test="${!bookgoods.fav}">
-                                            <button
-                                                    class="like-button glyphicon glyphicon-heart-empty btn btn-default"
-                                                    data-id="${bookgoods.goodsid}"
-                                                    style="display: none;"></button>
-                                        </c:if>
-                                        <!-- <button class="like-button1 glyphicon glyphicon-heart-empty btn btn-default "></button> -->
-                                    </div>
-                                </li>
-                            </c:forEach>
+                    for (var i=0;i<checks.length;i++)
+                    {
+                        $(checks[i]).siblings("input[name$='orders']").val(i);
+                    }
 
-                            <div class="clear-float" style="clear: both;"></div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </c:if>
-    </div>
+
+                }
+            });
+        });
+
+        //20170216 关联资源组，点击保存生效  开始
+        function related(){
+            window.open("/clientInterface/tbResourceAssociateGroupController/getResourceAssociateGroupApi.do","资源关联组","fullscreen=no,modal=yes,top=224,left=400, width=460,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+        //弹出关联资源组，确认选中后的方法
+        function groupCheck(result){
+            drawGroupList(result);
+        }
+        function drawGroupList(jsonList){
+            var count = 0;
+            $.each(jsonList, function(i, item){
+                var groupId = item['id'];
+                var groupName = item['groupName'];
+                $("#groupName").text(groupName);
+                $("#groupId").val(groupId);
+            });
+        }
+        //删除关联资源组，点击保存后生效
+        function deleteRelated(){
+            $("#groupName").text("无");
+            $("#groupId").val("");
+        }
+        //20170216 关联资源组，点击保存生效  结束
+        //20170313 资源关联课程 点击保存生效 开始
+        //点击 展示出该资源的关联课程列表
+        function relatedCourse(){
+            var resType = "1";//电子书和多文件
+            window.open("/clientInterface/tbCourseController/showResourceCourse.do?resourceId=${parentId}&resourceType="+resType,
+                "设置关联课程",
+                "fullscreen=no,modal=yes,top=224,left=400, width=460,height=400,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no, status=no");
+        }
+
+        //20170313 资源关联课程 点击保存生效 结束
+
+        //对当前商品已上传成功的在文件服务器上的文件进行扫描并显示
+        function checkRealFile(){
+            //获取所有有的上传文件路径信息
+            var  uploadPaths = [];
+            var  path_name = [];
+            $(".merchandiseName-fileUploadpath").each(function(){
+                var info = $(this).text();
+                if(info.indexOf("{data}")!=-1)  return true;
+                info = info.substring(info.lastIndexOf("/")+1);
+                var  infos = info.split(";");
+                path_name[infos[0]]=infos[1];
+                uploadPaths.push(infos[0]) ;
+            });
+            $.post("goods!ajaxScanRealFile.action",{filePaths:JSON.stringify(uploadPaths)},function(data){
+                var files = data;
+                console.log(files)
+                if(files==undefined||files.length==0){
+                    $("#realfiletable").hide();
+                    $("#norealfile").show();
+                    return ;
+                }
+                $("#realfiles").html("");
+                var innerhtml="";
+                $.each(files,function(index,file){
+                    innerhtml='<tr class="idd ui-sortable-handle" align="center">';
+                    innerhtml+='<td>'+path_name[file.name]+'</td>';
+                    innerhtml+='<td>'+file.type+'</td>';
+                    innerhtml+='<td>'+file.size+'MB</td>';
+                    innerhtml+='<td>'+file.changetime+'</td>';
+                    innerhtml+='</tr>';
+                    $("#realfiles").append(innerhtml);
+                });
+                $("#norealfile").hide();
+                $("#realfiletable").show();
+            });
+        }
+    </script>
+    <script language="JavaScript">
+        javascript:window.history.forward(1);
+    </script>
+
 </div>
+
+
 </body>
 </html>
-
-
